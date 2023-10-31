@@ -12,14 +12,58 @@
         <link rel="stylesheet" href="{% static 'card.css' %}" />
     </head>
     <body>
-        <div class="container d-flex justify-content-center align-items-center">
+        <header>
+            <nav
+                style="color: #fff; font-size: 1.5rem; display: flex; gap: 3rem"
+            >
+                <span>Hello, {{ request.user }}</span>
+                <span class="logout">
+                    <a style="color: #fff" href="{% url 'logout' %}">Log Out</a>
+                </span>
+            </nav>
+        </header>
+        <div
+            class="container d-flex flex-wrap justify-content-center align-items-center"
+        >
             {% for player in players %}
-            <div class="card">
+            <div class="card mw-200">
                 <div class="upper">
+                    {% if player.position == 'PG'%}
                     <img
-                        src="https://i.imgur.com/Qtrsrk5.jpg"
+                        src="/static/images/card_cover_pg.jpeg"
                         class="img-fluid"
+                        width="200"
+                        height="100"
                     />
+                    {% elif player.position == 'SG'%}
+                    <img
+                        src="/static/images/card_cover_sg.jpeg"
+                        class="img-fluid"
+                        width="200"
+                        height="100"
+                    />
+                    {% elif player.position == 'SF'%}
+                    <img
+                        src="/static/images/card_cover_sf.jpeg"
+                        class="img-fluid"
+                        width="200"
+                        height="100"
+                    />
+                    {% elif player.position == 'PF'%}
+                    <img
+                        src="/static/images/card_cover_pf.jpeg"
+                        class="img-fluid"
+                        width="200"
+                        height="100"
+                    />
+                    {% elif player.position == 'C'%}
+                    <img
+                        src="/static/images/card_cover_c.jpeg"
+                        class="img-fluid"
+                        width="200"
+                        height="100"
+                    />
+                    {% endif %}
                 </div>
 
                 <div class="user text-center">

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>LOGIN</title>
+
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1"
+        />
+        <!-- GOOGLE FONTS -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- prettier-ignore -->
+        {% load django_bootstrap5 %} 
+        {% load static %}
+        {% bootstrap_css %} 
+        {% bootstrap_javascript %}
+        <link rel="stylesheet" href="{% static 'register.css' %}" />
+    </head>
+    <body class="form-v9">
+        <div class="page-content">
+            {% for message in messages %}
+            <p id="messages">{{ message }}</p>
+            {% endfor %}
+            <div
+                class="form-v9-content"
+                style="
+                    background: url('/static/images/bg_login.jpg');
+                    background-size: cover;
+                "
+            >
+                <form class="form-detail" action="" method="POST">
+                    {% csrf_token %}
+                    <h2>Login Form</h2>
+                    <div class="form-row-total">
+                        <div class="form-row">
+                            <input type="text" name="username" />
+                        </div>
+                    </div>
+                    <div class="form-row-total">
+                        <div class="form-row">
+                            <input type="password" name="password" />
+                        </div>
+                    </div>
+                    <div class="form-row-last">
+                        <input
+                            type="submit"
+                            name="login"
+                            class="register"
+                            value="Login"
+                        />
+                    </div>
+
+                    <div class="form-row-last">
+                        <div class="d-flex justify-content-center gap-3 links">
+                            Don't have an account?
+                            <a href="{% url 'register' %}" class="ml-2"
+                                >Register</a
+                            >
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+
+            gtag("config", "UA-23581568-13");
+        </script>
+        <script
+            defer
+            src="https://static.cloudflareinsights.com/beacon.min.js/v8b253dfea2ab4077af8c6f58422dfbfd1689876627854"
+            integrity="sha512-bjgnUKX4azu3dLTVtie9u6TKqgx29RBwfj3QXYt5EKfWM/9hPSAI/4qcV5NACjwAo8UtTeWefx6Zq5PHcMm7Tg=="
+            data-cf-beacon='{"rayId":"8179875a6b5275a3","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2023.8.0","si":100}'
+            crossorigin="anonymous"
+        ></script>
+        <script>
+            //Query All input fields
+            const form_fields = document.getElementsByTagName("input");
+            form_fields[1].placeholder = "Username..";
+            form_fields[2].placeholder = "Enter password...";
+            for (var field in form_fields) {
+                form_fields[field].className += " input-text";
+            }
+        </script>
+    </body>
+</html>
