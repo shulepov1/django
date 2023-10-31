@@ -12,16 +12,7 @@
         <link rel="stylesheet" href="{% static 'card.css' %}" />
     </head>
     <body>
-        <header>
-            <nav
-                style="color: #fff; font-size: 1.5rem; display: flex; gap: 3rem"
-            >
-                <span>Hello, {{ request.user }}</span>
-                <span class="logout">
-                    <a style="color: #fff" href="{% url 'logout' %}">Log Out</a>
-                </span>
-            </nav>
-        </header>
+        <header>{% include 'navbar.html' %}</header>
         <div
             class="container d-flex flex-wrap justify-content-center align-items-center"
         >

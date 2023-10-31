@@ -13,8 +13,6 @@ from django.contrib.auth.models import User
 #         return super(IntegerRangeField, self).formfield(**defaults)
 
 class Team(models.Model):
-    def __str__(self):
-        return f"{self.city} {self.name}"
     CONFERENCES = (
         ('WEST', 'Western'),
         ('EAST', 'Eastern')
@@ -24,12 +22,11 @@ class Team(models.Model):
     conference = models.CharField(max_length=50, help_text='Название конференции', null=False, blank=False, choices=CONFERENCES)
     division = models.CharField(max_length=50, help_text='Название дивизиона', null=True, blank=True)
     id_user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='id пользователя', help_text='выберите id пользователя', null=True, blank=True)
-
-class Player(models.Model):
+    
     def __str__(self):
-        return f"({self.team}) {self.name}"
-    class Meta:
-        unique_together = ('team', 'jersey_number') # jersey number unique только внутри одной Team
+        return f"{self.city} {self.name}"
+    
+class Player(models.Model):
     POSITIONS = (
         ('PG', 'Point Guard'), # value and human-readable label
         ('SG', 'Shooting Guard'),
@@ -42,23 +39,25 @@ class Player(models.Model):
     position = models.CharField(max_length=50, help_text='Позиция игрока', null=False, blank=False, choices=POSITIONS)
     jersey_number = models.IntegerField(default=1, validators=[MinValueValidator(0), MaxValueValidator(99)], help_text='Введите номер на его майке', null=False, blank=False)
     id_user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='id пользователя', help_text='выберите id пользователя', null=True, blank=True)
-
+    def __str__(self):
+        return f"({self.team}) {self.name}"
+    class Meta:
+        unique_together = ('team', 'jersey_number') # jersey number unique только внутри одной Team
 
 class Game(models.Model):
-    def __str__(self):
-        return f"({self.date}) {self.home_team} - {self.away_team}"
     home_team = models.ForeignKey(Team, on_delete=models.CASCADE, help_text='Выберите "хозяев" матча', related_name='home_game', null=False, blank=False)
     away_team = models.ForeignKey(Team, on_delete=models.CASCADE, help_text='Выберите "гостей" матча', related_name='away_game', null=False, blank=False)
     date = models.DateField(help_text='Введите дату матча', null=False, blank=False)
-    home_team_score = models.IntegerField(default=0, validators=[MinValueValidator(0)], help_text='Введите счет хозяев', null=False, blank=False)
-    away_team_score = models.IntegerField(default=0, validators=[MinValueValidator(0)], help_text='Введите счет гостей', null=False, blank=False)
-
+    home_team_score = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(999)], help_text='Введите счет хозяев', null=False, blank=False)
+    away_team_score = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(999)], help_text='Введите счет гостей', null=False, blank=False)
+    def __str__(self):
+        return f"({self.date}) {self.home_team} - {self.away_team}"
 
 class Stat(models.Model):
-    def __str__(self):
-        return f"{self.player} in {self.game}"
     player = models.ForeignKey(Player, on_delete=models.CASCADE, help_text='Выберите игрока', null=False, blank=False)
     game = models.ForeignKey(Game, on_delete=models.CASCADE, help_text='Выберите игру', null=False, blank=False)
-    points = models.IntegerField(default=0, validators=[MinValueValidator(0)], help_text='Введите количество очков', null=False, blank=False)
-    rebounds = models.IntegerField(default=0, validators=[MinValueValidator(0)], help_text='Введите количество подборов', null=False, blank=False)
-    assists = models.IntegerField(default=0, validators=[MinValueValidator(0)], help_text='Введите количество передач', null=False, blank=False)
+    points = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(999)], help_text='Введите количество очков', null=False, blank=False)
+    rebounds = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(999)], help_text='Введите количество подборов', null=False, blank=False)
+    assists = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(999)], help_text='Введите количество передач', null=False, blank=False)
+    def __str__(self):
+        return f"{self.player} in {self.game}"

@@ -1,0 +1,9 @@
+<nav style="color: #000; font-size: 1.5rem; display: flex; gap: 3rem">
+    <span>Hello, {{ request.user }}</span>
+    <span class="logout">
+        <a style="color: #000" href="{% url 'logout' %}">Log Out</a>
+    </span>
+    {% if not is_homepage %}
+    <span><a href="{% url 'home' %}">Home</a></span>
+    {% endif %}
+</nav>

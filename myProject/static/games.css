@@ -1,0 +1,49 @@
+form,
+form * {
+    font-size: 0.8125rem !important;
+}
+
+form {
+    max-width: 300px;
+}
+
+main {
+    max-width: 900px;
+    padding-inline: 1rem;
+    display: grid;
+    grid-template-columns: fit-content(300px) 1fr;
+    align-items: start;
+    gap: 1rem;
+}
+
+main > * {
+    border: 1px solid #1c1c1c;
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.game-container {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 0.5rem;
+    justify-content: space-between;
+    justify-items: center;
+    align-content: start;
+}
+
+.game__date {
+    color: gray;
+    font-size: 0.8125em;
+}
+
+.game__score-container {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr fit-content(100px) 1fr;
+}
+.home-team {
+    text-align: left;
+}
+.away-team {
+    text-align: right;
+}

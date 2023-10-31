@@ -1,0 +1,13 @@
+annotated-types==0.6.0
+asgiref==3.7.2
+crispy-bootstrap5==2023.10
+Django==4.2.5
+django-bootstrap-datepicker-plus==5.0.4
+django-bootstrap5==23.3
+django-crispy-forms==2.1
+mysql==0.0.3
+mysqlclient==2.2.0
+pydantic==2.4.2
+pydantic_core==2.10.1
+sqlparse==0.4.4
+typing_extensions==4.8.0
