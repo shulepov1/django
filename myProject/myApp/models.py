@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 class IntegerRangeField(models.IntegerField):
@@ -23,6 +23,7 @@ class Team(models.Model):
     city = models.CharField(max_length=100, help_text='Из какого города команда', null=False, blank=False)
     conference = models.CharField(max_length=50, help_text='Название конференции', null=False, blank=False, choices=CONFERENCES)
     division = models.CharField(max_length=50, help_text='Название дивизиона', null=True, blank=True)
+    id_user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='id пользователя', help_text='выберите id пользователя', null=True, blank=True)
 
 class Player(models.Model):
     def __str__(self):
@@ -40,7 +41,9 @@ class Player(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE, help_text='Выберите команду', null=False, blank=False)
     position = models.CharField(max_length=50, help_text='Позиция игрока', null=False, blank=False, choices=POSITIONS)
     jersey_number = models.IntegerField(default=1, validators=[MinValueValidator(0), MaxValueValidator(99)], help_text='Введите номер на его майке', null=False, blank=False)
-    
+    id_user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='id пользователя', help_text='выберите id пользователя', null=True, blank=True)
+
+
 class Game(models.Model):
     def __str__(self):
         return f"({self.date}) {self.home_team} - {self.away_team}"

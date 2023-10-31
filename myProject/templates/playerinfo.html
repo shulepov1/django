@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Информация об игроке</title>
+        <!-- prettier-ignore -->
+        {% load django_bootstrap5 %} 
+        {% load static %}
+        {% bootstrap_css %} 
+        {% bootstrap_javascript %}
+        <link rel="stylesheet" href="{% static 'card.css' %}" />
+    </head>
+    <body>
+        <div class="container d-flex justify-content-center align-items-center">
+            {% for player in players %}
+            <div class="card">
+                <div class="upper">
+                    <img
+                        src="https://i.imgur.com/Qtrsrk5.jpg"
+                        class="img-fluid"
+                    />
+                </div>
+
+                <div class="user text-center">
+                    <div class="profile">
+                        <img
+                            src="https://www.gravatar.com/avatar/{{player.hash}}?d=retro"
+                            class="rounded-circle"
+                            width="80"
+                        />
+                    </div>
+                </div>
+
+                <div class="mt-5 text-center">
+                    <h4 class="mb-0">{{player.name}}</h4>
+                    <span class="text-muted d-block mb-2">{{player.team}}</span>
+
+                    <div
+                        class="d-flex justify-content-around align-items-center mt-4 px-4"
+                    >
+                        <div class="stats">
+                            <h6 class="mb-0">Position</h6>
+                            <span>{{player.position}}</span>
+                        </div>
+
+                        <div class="stats">
+                            <h6 class="mb-0">Number</h6>
+                            <span>{{player.jersey_number}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </body>
+</html>
