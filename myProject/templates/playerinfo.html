@@ -1,92 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Информация об игроке</title>
-        <!-- prettier-ignore -->
-        {% load django_bootstrap5 %} 
-        {% load static %}
-        {% bootstrap_css %} 
-        {% bootstrap_javascript %}
-        <link rel="stylesheet" href="{% static 'card.css' %}" />
-    </head>
-    <body>
-        <header>{% include 'navbar.html' %}</header>
-        <div
-            class="container d-flex flex-wrap justify-content-center align-items-center"
-        >
-            {% for player in players %}
-            <div class="card mw-200">
-                <div class="upper">
-                    {% if player.position == 'PG'%}
-                    <img
-                        src="/static/images/card_cover_pg.jpeg"
-                        class="img-fluid"
-                        width="200"
-                        height="100"
-                    />
-                    {% elif player.position == 'SG'%}
-                    <img
-                        src="/static/images/card_cover_sg.jpeg"
-                        class="img-fluid"
-                        width="200"
-                        height="100"
-                    />
-                    {% elif player.position == 'SF'%}
-                    <img
-                        src="/static/images/card_cover_sf.jpeg"
-                        class="img-fluid"
-                        width="200"
-                        height="100"
-                    />
-                    {% elif player.position == 'PF'%}
-                    <img
-                        src="/static/images/card_cover_pf.jpeg"
-                        class="img-fluid"
-                        width="200"
-                        height="100"
-                    />
-                    {% elif player.position == 'C'%}
-                    <img
-                        src="/static/images/card_cover_c.jpeg"
-                        class="img-fluid"
-                        width="200"
-                        height="100"
-                    />
-                    {% endif %}
-                </div>
+{% extends 'base.html' %}
 
-                <div class="user text-center">
-                    <div class="profile">
-                        <img
-                            src="https://www.gravatar.com/avatar/{{player.hash}}?d=retro"
-                            class="rounded-circle"
-                            width="80"
-                        />
+{% block head %}
+<title>Информация об игроке</title>
+{% load static %}
+<link rel="stylesheet" href="{% static 'card.css' %}" />
+{% endblock head %}
+
+{% block content %}
+<main>
+    <div class="container d-flex flex-wrap justify-content-center align-items-center">
+        {% for player in players %}
+        <div class="card mw-200">
+            <div class="upper">
+                {% if player.position == 'PG'%}
+                <img src="/static/images/card_cover_pg.jpeg" class="img-fluid" width="200" height="100" />
+                {% elif player.position == 'SG'%}
+                <img src="/static/images/card_cover_sg.jpeg" class="img-fluid" width="200" height="100" />
+                {% elif player.position == 'SF'%}
+                <img src="/static/images/card_cover_sf.jpeg" class="img-fluid" width="200" height="100" />
+                {% elif player.position == 'PF'%}
+                <img src="/static/images/card_cover_pf.jpeg" class="img-fluid" width="200" height="100" />
+                {% elif player.position == 'C'%}
+                <img src="/static/images/card_cover_c.jpeg" class="img-fluid" width="200" height="100" />
+                {% endif %}
+            </div>
+
+            <div class="user text-center">
+                <div class="profile">
+                    <img src="https://www.gravatar.com/avatar/{{player.hash}}?d=retro" class="rounded-circle"
+                        width="80" />
+                </div>
+            </div>
+
+            <div class="mt-5 text-center">
+                <h4 class="mb-0">{{player.name}}</h4>
+                <span class="text-muted d-block mb-2">{{player.team}}</span>
+
+                <div class="d-flex justify-content-around align-items-center mt-4 px-4">
+                    <div class="stats">
+                        <h6 class="mb-0">Position</h6>
+                        <span>{{player.position}}</span>
                     </div>
-                </div>
 
-                <div class="mt-5 text-center">
-                    <h4 class="mb-0">{{player.name}}</h4>
-                    <span class="text-muted d-block mb-2">{{player.team}}</span>
-
-                    <div
-                        class="d-flex justify-content-around align-items-center mt-4 px-4"
-                    >
-                        <div class="stats">
-                            <h6 class="mb-0">Position</h6>
-                            <span>{{player.position}}</span>
-                        </div>
-
-                        <div class="stats">
-                            <h6 class="mb-0">Number</h6>
-                            <span>{{player.jersey_number}}</span>
-                        </div>
+                    <div class="stats">
+                        <h6 class="mb-0">Number</h6>
+                        <span>{{player.jersey_number}}</span>
                     </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
-    </body>
-</html>
+        {% endfor %}
+    </div>
+</main>
+{% endblock content %}
