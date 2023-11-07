@@ -24,7 +24,7 @@ class Team(models.Model):
     id_user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='id пользователя', help_text='выберите id пользователя', null=True, blank=True)
     
     def __str__(self):
-        return f"{self.city} {self.name}"
+        return f"{self.name}"
     
 class Player(models.Model):
     POSITIONS = (

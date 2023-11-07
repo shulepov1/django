@@ -1,21 +1,23 @@
 from django.shortcuts import render, redirect
 from myApp.models import Player, Game
+from myApp.filters import GameFilter
 from myApp.forms import CreateUserForm, GameForm
 import hashlib
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import authenticate, login, logout
-
 from django.contrib.auth.decorators import login_required
-# Create your views here.
 
-@login_required(login_url='login')
+def is_player(user):
+    return user.groups.filter(name__in=['admin','player']).exists()
+
+# @login_required(login_url='login')
 def homePage(request):
     context = {'is_homepage': True}
     return render(request, 'homepage.html', context)
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def show_player_info(request):
     context = {}
     # user = request.user
@@ -27,10 +29,11 @@ def show_player_info(request):
     
     return render(request, 'playerinfo.html', context)
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def show_games(request):
     context = {}
-    games = Game.objects.all()
+    games = Game.objects.all().order_by('date')
+    game_filter = GameFilter(request.GET, queryset=games)
 
     if request.method == "POST":
             form = GameForm(request.POST)
@@ -43,11 +46,12 @@ def show_games(request):
 
     context['games'] = games
     context['form'] = form
+    context['filter'] = game_filter
     return render(request, 'games.html', context)
 
 def registerPage(request):
     if request.user.is_authenticated:
-        return redirect('players')
+        return redirect('home')
     else:
         form = CreateUserForm()
 
@@ -65,7 +69,7 @@ def registerPage(request):
 
 def loginPage(request):
     if request.user.is_authenticated:
-            return redirect('players')
+            return redirect('home')
     else:
         if request.method == "POST":
             username = request.POST.get('username')

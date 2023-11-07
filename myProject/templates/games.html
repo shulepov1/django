@@ -4,6 +4,7 @@
 <title>Games</title>
 {% load crispy_forms_tags %}
 {% load static %}
+{% load user_tags %}
 <link rel="stylesheet" href="{% static 'reset.css' %}" />
 <link rel="stylesheet" href="{% static 'games.css' %}" />
 {% endblock head %}
@@ -11,41 +12,82 @@
 {% block content %}
 <main>
     {% if user.is_staff %}
-    <div class="form-container">
-        <form class="" action="" method="POST">
-            {% csrf_token %} {{ form|crispy }}
-            <button type="submit" class="btn btn-primary">
-                Submit
-            </button>
-        </form>
+    <div>
+        <h3 class="title">add game</h3>
+        <div class="item form-container">
+            <form class="" action="" method="POST">
+                {% csrf_token %} {{ form|crispy }}
+                <button type="submit" class="btn btn-primary">
+                    Submit
+                </button>
+            </form>
+        </div>
     </div>
     {% endif %}
-    <div class="games-list">
-        {% for game in games %}
-        <div class="game-container">
-            <div class="game__date-container">
-                <span class="game__date">{{game.date}} : </span>
-            </div>
-            <div class="game__score-container">
-                <div class="home-team">{{game.home_team}}</div>
-                <div class="score">
-                    <span class="home-score">{{game.home_team_score}}</span>
-                    -
-                    <span class="away-score">{{game.away_team_score}}</span>
+    <div>
+        <h3 class="title">all games</h3>
+        <div class="item games-list">
+            {% for game in games %}
+            <div class="game-container">
+                <div class="game__date-container">
+                    <span class="game__date">{{game.date}} : </span>
                 </div>
-                <div class="away-team">{{game.away_team}}</div>
+                <div class="game__score-container">
+                    <div class="home-team">{{game.home_team}}</div>
+                    <div class="score">
+                        <span class="home-score">{{game.home_team_score}}</span>
+                        -
+                        <span class="away-score">{{game.away_team_score}}</span>
+                    </div>
+                    <div class="away-team">{{game.away_team}}</div>
+                </div>
             </div>
-        </div>
 
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
+
+    {% if request.user|is_group:"player" or request.user|is_group:"admin" %}
+    <div>
+        <h3 class="title">choose teams...</h3>
+        <div class="item">
+            <form method="get">
+                {{ filter.form.as_p }}
+                <button type="submit">Filter</button>
+            </form>
+            <ul>
+                {% for game in filter.qs %}
+                <div class="game-container">
+                    <div class="game__date-container">
+                        <span class="game__date">{{game.date}} : </span>
+                    </div>
+                    <div class="game__score-container">
+                        <div class="home-team">{{game.home_team}}</div>
+                        <div class="score">
+                            <span class="home-score">{{game.home_team_score}}</span>
+                            -
+                            <span class="away-score">{{game.away_team_score}}</span>
+                        </div>
+                        <div class="away-team">{{game.away_team}}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% else %}
+    <!-- <p> Only players can see this </p> -->
+    {% endif %}
+
 </main>
 <script>
     main = document.querySelector("main");
     console.log(main.children);
-    if (main.children.length === 1) {
-        main.style.display = "block";
-        main.style.maxWidth = "575px";
+    if (main.children.length < 3) {
+        maxWidth = main.children.length * 600;
+        main.style.maxWidth = `${maxWidth}px`
+        main.style.gridTemplateColumns = `repeat(${main.children.length}, 600px)`;
+        main.style.padding = '0'
     }
     games = document.querySelectorAll(".game__score-container");
     games.forEach(function (game) {

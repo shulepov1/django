@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from myApp.models import Game
+from myApp.models import Game, Team
 from django.contrib.auth.forms import UserCreationForm
 from bootstrap_datepicker_plus.widgets import DatePickerInput
 from django.core.exceptions import ValidationError
@@ -12,6 +12,7 @@ class CreateUserForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 class GameForm(forms.ModelForm):
+    date = forms.DateField(widget=forms.SelectDateWidget)
     class Meta:
         model = Game
         fields = ['home_team', 'away_team', 'date', 'home_team_score', 'away_team_score']

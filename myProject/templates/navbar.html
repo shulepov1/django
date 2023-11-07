@@ -3,22 +3,46 @@
         color: #000;
         font-size: 1.5rem;
         display: flex;
-        gap: 3rem;
+        justify-content: space-between;
+        padding-left: 2rem;
+        padding-right: 3rem;
     }
 
-    .logout>a {
+    nav>* {
+        display: flex;
+        gap: 2rem;
+    }
+
+    nav a {
+        font-style: italic;
         color: #000;
     }
 </style>
 <nav>
-    <span>Hello, {{ request.user }}</span>
-    <span class="logout">
-        <a href="{% url 'logout' %}">Log Out</a>
-    </span>
+    <div>
+        {% if user.is_authenticated %}
+        <span>Hello, {{ request.user }}</span>
+        {% endif %}
 
-    {% if not is_homepage %}
-    <span>
-        <a href="{% url 'home' %}">Home</a>
-    </span>
-    {% endif %}
+        {% if not is_homepage %}
+        <span>
+            <a href="{% url 'home' %}">Home</a>
+        </span>
+        {% endif %}
+    </div>
+
+    <div>
+        {% if user.is_authenticated%}
+        <span class="logout">
+            <a href="{% url 'logout' %}">Log Out</a>
+        </span>
+        {% else %}
+        <span class="register">
+            <a href="{% url 'register' %}">Register</a>
+        </span>
+        <span class="login">
+            <a href="{% url 'login' %}">Log In</a>
+        </span>
+        {% endif %}
+    </div>
 </nav>
