@@ -1,111 +1,154 @@
-{% extends 'base.html' %}
-
-{% block head %}
+{% extends 'base.html' %} {% block head %}
 <title>Games</title>
-{% load crispy_forms_tags %}
-{% load static %}
-{% load user_tags %}
-<link rel="stylesheet" href="{% static 'reset.css' %}" />
-<link rel="stylesheet" href="{% static 'games.css' %}" />
-{% endblock head %}
+{% load crispy_forms_tags %} {% load static %} {% load user_tags %}
+<!-- <link rel="stylesheet" href="{% static 'reset.css' %}" /> -->
+<!-- <link rel="stylesheet" href="{% static 'games.css' %}" /> -->
+{% endblock head %} {% block content %}
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Special+Elite&display=swap");
+    .games {
+        background: black;
+        color: white;
 
-{% block content %}
-<main>
-    {% if user.is_staff %}
-    <div>
-        <h3 class="title">add game</h3>
-        <div class="item form-container">
-            <form class="" action="" method="POST">
-                {% csrf_token %} {{ form|crispy }}
-                <button type="submit" class="btn btn-primary">
-                    Submit
-                </button>
-            </form>
-        </div>
-    </div>
-    {% endif %}
-    <div>
-        <h3 class="title">all games</h3>
-        <div class="item games-list">
-            {% for game in games %}
-            <div class="game-container">
-                <div class="game__date-container">
-                    <span class="game__date">{{game.date}} : </span>
-                </div>
-                <div class="game__score-container">
-                    <div class="home-team">{{game.home_team}}</div>
-                    <div class="score">
-                        <span class="home-score">{{game.home_team_score}}</span>
-                        -
-                        <span class="away-score">{{game.away_team_score}}</span>
-                    </div>
-                    <div class="away-team">{{game.away_team}}</div>
-                </div>
-            </div>
-
-            {% endfor %}
-        </div>
-    </div>
-
-    {% if request.user|is_group:"player" or request.user|is_group:"admin" %}
-    <div>
-        <h3 class="title">choose teams...</h3>
-        <div class="item">
-            <form method="get">
-                {{ filter.form.as_p }}
-                <button type="submit">Filter</button>
-            </form>
-            <ul>
-                {% for game in filter.qs %}
-                <div class="game-container">
-                    <div class="game__date-container">
-                        <span class="game__date">{{game.date}} : </span>
-                    </div>
-                    <div class="game__score-container">
-                        <div class="home-team">{{game.home_team}}</div>
-                        <div class="score">
-                            <span class="home-score">{{game.home_team_score}}</span>
-                            -
-                            <span class="away-score">{{game.away_team_score}}</span>
-                        </div>
-                        <div class="away-team">{{game.away_team}}</div>
-                    </div>
-                </div>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-    {% else %}
-    <!-- <p> Only players can see this </p> -->
-    {% endif %}
-
-</main>
-<script>
-    main = document.querySelector("main");
-    console.log(main.children);
-    if (main.children.length < 3) {
-        maxWidth = main.children.length * 600;
-        main.style.maxWidth = `${maxWidth}px`
-        main.style.gridTemplateColumns = `repeat(${main.children.length}, 600px)`;
-        main.style.padding = '0'
+        max-width: 650px;
+        padding: 1rem;
     }
-    games = document.querySelectorAll(".game__score-container");
-    games.forEach(function (game) {
-        homeName = game.querySelector(".home-team");
-        awayName = game.querySelector(".away-team");
-        homeScore = Number(
-            game.querySelector(".home-score").textContent
-        );
-        awayScore = Number(
-            game.querySelector(".away-score").textContent
-        );
-        if (homeScore > awayScore) {
-            homeName.style.color = "green";
-            homeName.style.fontWeight = 700;
-        } else if (awayScore > homeScore) {
-            awayName.style.color = "green";
-            awayName.style.fontWeight = 700;
-        }
+    .form-teams {
+        font-size: 0.9rem;
+    }
+    .games-list {
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        border-top: 1px solid hotpink;
+        padding: 0;
+        padding-top: 2rem;
+    }
+    .game {
+        display: grid;
+        grid-template-columns: 100px 1fr 50px;
+        gap: 2.5rem;
+    }
+    .game__score {
+        display: grid;
+        width: 100%;
+        grid-template-columns: 1fr fit-content(100px) 1fr;
+        gap: 3rem;
+    }
+    .home-team {
+        text-align: left;
+    }
+    .away-team {
+        text-align: right;
+    }
+    .game__date {
+        color: gray;
+        font-size: 0.8125em;
+    }
+    .winning-team {
+        color: darkgreen;
+    }
+    .title {
+        margin-bottom: 1.5rem;
+    }
+    .games-container {
+        font-family: "Special Elite", Courier;
+        max-width: 1500px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5rem;
+    }
+    .add-game {
+        max-width: 400px;
+        background: black;
+        color: white;
+        font-size: 0.825rem;
+        padding-inline: 3rem;
+        padding-block: 1rem;
+    }
+    /* select, option {
+        padding: 5px !important;
+        margin: 5px !important;
+        outline: none !important;
+    }    
+    select, input {
+        background-color: black !important;
+        color: white !important;
+        border-radius: 0 !important;
+        
+    } */
+
+</style>
+<div class="games-container">
+    <div class="games">
+        <h3 class="title">choose teams...</h3>
+        <form class="form-teams" method="get">
+            {{ filter.form.as_p }}
+            <button class="btn-reset" type="button">reset</button>
+            <!-- <button type="submit">Filter</button> -->
+        </form>
+
+        <ul class="games-list">
+            {% for game in filter.qs %}
+            <div class="game" id="{{game.id}}">
+                <div class="game__date">
+                    <span>{{game.date}} : </span>
+                </div>
+                <div class="game__score">
+                    <div
+                        class="home-team {% if game.home_team_score > game.away_team_score %} winning-team {% endif %}"
+                    >
+                        {{game.home_team}}
+                    </div>
+                    <div>
+                        <span>{{game.home_team_score}}</span>
+                        -
+                        <span>{{game.away_team_score}}</span>
+                    </div>
+                    <div
+                        class="away-team {% if game.home_team_score < game.away_team_score %} winning-team {% endif %}"
+                    >
+                        {{game.away_team}}
+                    </div>
+                    
+                </div>
+                <form action="{% url 'game_delete' game.id %}" method="post">
+                    {% csrf_token %}
+                    <input class="delete-game" type="submit" value="X">
+                </form>
+            </div>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% if user.is_staff %}
+    <div class="add-game">
+        <h3 class="title">add game...</h3>
+        <form class="form-add-game" action="" method="POST">
+            {% csrf_token %} {{ form|crispy }}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+<script>
+    const form = document.querySelector(".form-teams");
+    const resetBtn = form.querySelector(".btn-reset");
+
+    const selects = form.querySelectorAll("select");
+    selects.forEach(function (select) {
+        select.addEventListener("change", function (event) {
+            form.submit();
+        });
+    });
+
+    resetBtn.addEventListener("click", function () {
+        selects.forEach(function (select) {
+            select.selectedIndex = 0;
+            form.submit();
+            console.log(select.selectedIndex);
+        });
     });
 </script>
 {% endblock content %}

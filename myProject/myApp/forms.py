@@ -1,3 +1,4 @@
+import datetime
 from django import forms
 from django.contrib.auth.models import User
 from myApp.models import Game, Team
@@ -11,8 +12,12 @@ class CreateUserForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
 class GameForm(forms.ModelForm):
     date = forms.DateField(widget=forms.SelectDateWidget)
+    
     class Meta:
         model = Game
         fields = ['home_team', 'away_team', 'date', 'home_team_score', 'away_team_score']
