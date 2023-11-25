@@ -1,0 +1,181 @@
+{% extends 'base.html' %} {% block head %}
+<title>Информация об игроке</title>
+{% load static %}
+<!-- <link rel="stylesheet" href="{% static 'css/card.css' %}" /> -->
+{% endblock head %} {% block content %}
+
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Special+Elite&display=swap");
+    .player-card {
+        max-width: 400px;
+        max-height: 200px;
+        background: black;
+        color: white;
+
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: 0.5rem;
+    }
+    .player-card:nth-child(even) {
+        transform: translateY(100px);
+    }
+    .player-card > p {
+        margin: 0;
+    }
+    .player-card > p:last-child {
+        align-self: flex-end;
+    }
+    .player__name {
+        color: lime;
+    }
+    .player__team {
+        color: darkorchid;
+    }
+    .see-info {
+        background: none;
+        color: white;
+        border: none;
+    }
+    .see-info:hover {
+        text-decoration: underline;
+    }
+    .players {
+        max-width: 900px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5rem;
+
+        align-items: start;
+        align-content: start;
+    }
+    .stats-modal {
+        outline: 1px solid gold;
+        background: black;
+        color: white;
+        width: 100%;
+        height: 80vh;
+    }
+    .players-container {
+        font-family: "Special Elite", Courier;
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+        padding-inline: 5rem;
+        padding-block: 1rem;
+        gap: 3rem;
+    }
+    .stats-modal {
+        padding: 1rem;
+    }
+    .stats-modal {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .modal__player > div {
+        display: flex;
+        gap: 1rem;
+        margin-top: 0.5rem;
+    }
+    .modal__bio, .modal__games {
+        font-size: 0.9rem;
+    }
+    .modal__bio {
+        max-width: 65ch;
+        line-height: 1.65;
+    }
+    .modal__games {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .game__points, .game__rebounds, .game__assists {
+        color:brown;
+    }
+</style>
+<div class="players-container">
+    <div class="players">
+        {% for player in players %}
+        <div class="player-card">
+            <p class="player__name">{{ player.name }}</p>
+            <p class="player__team {{player.id}}">{{ player.team }}</p>
+            <p>{{ player.position }}</p>
+            <p><button class="see-info" id="{{player.id}}">see info</button></p>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="stats-modal">
+        <p>click 'see info' on any player card
+        </p>
+    </div>
+</div>
+
+<script>
+    const modal = document.querySelector(".stats-modal");
+    const btns = document.querySelectorAll(".see-info");
+
+    btns.forEach(function (btn) {
+        btn.addEventListener("click", function (event) {
+            const playerId = this.id;
+            modal.innerHTML = "";
+
+            fetch("/get-player-stats/" + playerId)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    const player = data.player;
+                    const stats = data.stats;
+                    console.log(btn.id)
+                    const player_team = document.getElementsByClassName(`player__team ${btn.id}`)[0].textContent;
+                    modal.innerHTML = `
+                        <div class="modal__player">
+                            <div>
+                                <span class="modal__name player__name">${player.name}</span
+                                ><span class="modal__team player__team">${player_team}</span>
+                            </div>
+                            <div>
+                                <span class="modal__pos">${player.position}</span
+                                ><span class="modal__num">${player.jersey_number}</span>
+                            </div>
+                        </div>
+                        <div class="modal__bio">
+                            <p>
+                                ${player.bio || 'no info'}
+                            </p>
+                        </div>
+                        <div class="modal__games">
+                        </div>`;
+                    const gamesElt = document.querySelector('.modal__games');
+                    for (stat of stats){
+                        console.log(stat);
+                        const gameElt = document.createElement('div');
+                        gameElt.classList.add('modal__game');
+                        const dateElt = document.createElement('span');
+                        dateElt.classList.add('game__date');
+                        dateElt.textContent = stat['game_info'][0].date + " | ";
+                        const homeTeamElt = document.createElement('span');
+                        homeTeamElt.classList.add('game__hometeam');
+                        homeTeamElt.textContent = stat['game_info'][0].home_team + " vs ";
+                        const awayTeamElt = document.createElement('span');
+                        awayTeamElt.classList.add('game__awayteam');
+                        awayTeamElt.textContent = stat['game_info'][0].away_team + " | ";
+                        const pointsElt = document.createElement('span');
+                        pointsElt.classList.add('game__points');
+                        pointsElt.textContent = stat.points + "p ";
+                        const reboundsElt = document.createElement('span');
+                        reboundsElt.classList.add('game__rebounds');
+                        reboundsElt.textContent = stat.rebounds + "reb ";
+                        const assistsElt = document.createElement('span');
+                        assistsElt.classList.add('game__assists');
+                        assistsElt.textContent = stat.assists + "as";
+                        gameElt.append(dateElt, homeTeamElt, awayTeamElt, pointsElt, reboundsElt, assistsElt);
+                        gamesElt.appendChild(gameElt);
+                    }
+                });
+        });
+    });
+</script>
+
+{% endblock content %}

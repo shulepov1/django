@@ -1,85 +1,163 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} 
 
 {% block head %}
 <title>Home</title>
-{% endblock head %}
+{% endblock head %} {% block content %}
 
-{% block content %}
 <style>
-    body {
-        padding: 1rem;
-    }
-
-    .link-list {
-        list-style-type: none;
-        text-decoration: none;
-        padding: 0;
-    }
-
-    .link-list>* {
-        margin-top: 1rem;
-    }
-
-    .custom-btn {
-        width: fit-content;
-        height: 40px;
-        color: #fff;
-        border-radius: 5px;
-        padding: 10px 25px;
-        font-family: "Lato", sans-serif;
-        font-weight: 500;
-        background: transparent;
-        cursor: pointer;
-        transition: all 0.3s ease;
+    @import url("https://fonts.googleapis.com/css2?family=Special+Elite&display=swap");
+    .note {
         position: relative;
-        display: inline-block;
-        box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
-            7px 7px 20px 0px rgba(0, 0, 0, 0.1),
-            4px 4px 5px 0px rgba(0, 0, 0, 0.1);
-        outline: none;
+        width: fit-content;
+        max-width: 500px;
+        max-height: 450px;
+        overflow: hidden;
+        padding-inline: 3rem;
+        padding-top: 1rem;
+        padding-bottom: 4rem;
+        resize: both;
     }
+    .note__text {
+        font-family: "Special Elite", Courier;
+        font-weight: 400;
 
-    /* 1 */
-    .btn-1 {
-        background: rgb(6, 14, 131);
-        background: linear-gradient(0deg,
-                rgba(6, 14, 131, 1) 0%,
-                rgba(12, 25, 180, 1) 100%);
-        border: none;
+        text-align: justify;
+        color: black;
+        width: fit-content;
+        margin-inline: auto;
+        position: relative;
+        z-index: 2;
+
+        display: block; /* for non-webkit browsers */
+        display: -webkit-box;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 15;
     }
-
-    .btn-1:hover {
-        background: rgb(0, 3, 255);
-        background: linear-gradient(0deg,
-                rgba(0, 3, 255, 1) 0%,
-                rgba(2, 126, 251, 1) 100%);
+    .note__bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
     }
-
-    a.link,
-    a.link:hover {
-        color: #fff;
-        text-decoration: none;
+    .note__bg > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .notes {
+        padding-right: 4rem;
+        padding-bottom: 4rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 8rem;
+    }
+    .title {
+        margin-top: 2rem;
+        color: white;
+        font-family: "Special Elite", Courier;
+        text-align: center;
     }
 </style>
-<main>
-    <ul class="link-list">
-        {% if user.is_staff %}
-        <li>
-            <a class="link" href="{% url 'admin:index' %}">
-                <button class="custom-btn btn-1">admin panel</button>
-            </a>
-        </li>
-        {% endif %}
-        <li>
-            <a class="link" href="{% url 'players' %}">
-                <button class="custom-btn btn-1">players</button>
-            </a>
-        </li>
-        <li>
-            <a class="link" href="{% url 'games' %}">
-                <button class="custom-btn btn-1">games</button>
-            </a>
-        </li>
-    </ul>
-</main>
+<section>
+    <h1 class="title">NEWS</h1>
+    <div class="notes">
+        <div class="note">
+            <div class="note__text">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Architecto dolores vero similique sed, magnam quas quasi quidem
+                facilis unde ex. Iure molestias doloremque nostrum itaque veniam
+                consectetur! Enim recusandae error inventore labore impedit
+                aliquid est? Eaque quos, assumenda magnam cupiditate earum sunt
+                repudiandae inventore ut eveniet provident dolor distinctio
+                velit!
+            </div>
+            <div class="note__bg">
+                <img src="../static/images/textures/papernote.png" alt="" />
+            </div>
+        </div>
+        <div class="note">
+            <div class="note__text">
+                <p>TRADE</p>
+                <p>WHO: LEBRON JAMES</p>
+                <p>FROM: LA LAKERS</p>
+                <p>TO: BOSTON CELTICS</p>
+            </div>
+            <div class="note__bg">
+                <img src="../static/images/textures/papernote.png" alt="" />
+            </div>
+        </div>
+        <div class="note">
+            <div class="note__text">
+                Basketball is a popular sport that is played all over the world.
+                It is a high-energy, fast-paced game that requires skill,
+                precision, and teamwork. The roots of basketball can be traced
+                back to the late 19th century when it was invented by Dr. James
+                Naismith, a physical education instructor from Canada. Since
+                then, it has evolved into a global phenomenon, with professional
+                leagues and competitions attracting millions of fans. The
+                objective of the game is simple – to score more points than the
+                opposing team by shooting the ball into the opponent's basket.
+                Each team consists of five players who try to move the ball up
+                and down the court in order to create scoring opportunities.
+                With dribbling, passing, and shooting, players must utilize
+                their physical abilities, strategy, and basketball IQ to
+                outsmart their opponents and come out victorious. One of the
+                most distinctive aspects of basketball is its fast pace. The
+                game demands agility, speed, and quick decision-making, making
+                it exhilarating to watch and play. Players must constantly be
+                aware of their surroundings, anticipate movements, and react
+                quickly to the ever-changing dynamics of the game. This fast
+                pace, coupled with the physicality of the sport, makes
+                basketball a true test of athleticism.
+            </div>
+            <div class="note__bg">
+                <img src="../static/images/textures/papernote.png" alt="" />
+            </div>
+        </div>
+        <div class="note">
+            <div class="note__text">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Architecto dolores vero similique sed, magnam quas quasi quidem
+                facilis unde ex. Iure molestias doloremque nostrum itaque veniam
+                consectetur! Enim recusandae error inventore labore impedit
+                aliquid est? Eaque quos, assumenda magnam cupiditate earum sunt
+                repudiandae inventore ut eveniet provident dolor distinctio
+                velit!
+            </div>
+            <div class="note__bg">
+                <img src="../static/images/textures/papernote.png" alt="" />
+            </div>
+        </div>
+        <div class="note">
+            <div class="note__text">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Architecto dolores vero similique sed, magnam quas quasi quidem
+                facilis unde ex. Iure molestias doloremque nostrum itaque veniam
+                consectetur! Enim recusandae error inventore labore impedit
+                aliquid est? Eaque quos, assumenda magnam cupiditate earum sunt
+                repudiandae inventore ut eveniet provident dolor distinctio
+                velit!
+            </div>
+            <div class="note__bg">
+                <img src="../static/images/textures/papernote.png" alt="" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    const backgrounds = document.querySelectorAll(".note__bg");
+    backgrounds.forEach(function (elt) {
+        const randomInt = getRandomInt(-5, 5);
+        elt.style.transform = `rotate(${randomInt}deg)`;
+    });
+</script>
+
 {% endblock content%}

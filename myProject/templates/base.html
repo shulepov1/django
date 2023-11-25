@@ -15,11 +15,36 @@
 </head>
 
 <body>
-    {% include 'navbar.html' %}
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box !important;
+        }
+        html, body {
+            min-height: 100%;
+        }
+        body {
+            background: url("../static/images/textures/mainwp.jpeg");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        main{
+            display: grid;
+            grid-template-columns: max-content 1fr;
+        }
+    </style>
+    <header>
+        {% include 'navbar.html' %}
+    </header>
+    <main>
+        {% include 'sidebar.html' %}
 
-    {% block content %}
-
-    {% endblock content %}
+        {% block content %}
+    
+        {% endblock content %}
+    </main>
+    
 </body>
 
 </html>

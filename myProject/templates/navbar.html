@@ -1,21 +1,18 @@
 <style>
     nav {
-        color: #000;
-        font-size: 1.5rem;
+        font-family: 'Times New Roman', Times, serif;
+        color: white;
+        font-size: 1.25rem;
         display: flex;
-        justify-content: space-between;
-        padding-left: 2rem;
-        padding-right: 3rem;
+        justify-content: flex-end;
+        gap: 2rem;
+        padding: 1rem;
+        padding-right: 4rem;
     }
 
-    nav>* {
+    .auth-options {
         display: flex;
         gap: 2rem;
-    }
-
-    nav a {
-        font-style: italic;
-        color: #000;
     }
 </style>
 <nav>
@@ -23,25 +20,19 @@
         {% if user.is_authenticated %}
         <span>Hello, {{ request.user }}</span>
         {% endif %}
-
-        {% if not is_homepage %}
-        <span>
-            <a href="{% url 'home' %}">Home</a>
-        </span>
-        {% endif %}
     </div>
 
-    <div>
+    <div class="auth-options">
         {% if user.is_authenticated%}
         <span class="logout">
-            <a href="{% url 'logout' %}">Log Out</a>
+            <a class="aside-link" href="{% url 'logout' %}">Log Out</a>
         </span>
         {% else %}
         <span class="register">
-            <a href="{% url 'register' %}">Register</a>
+            <a class="aside-link" href="{% url 'register' %}">Register</a>
         </span>
         <span class="login">
-            <a href="{% url 'login' %}">Log In</a>
+            <a class="aside-link" href="{% url 'login' %}">Log In</a>
         </span>
         {% endif %}
     </div>
