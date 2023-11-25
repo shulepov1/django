@@ -1,6 +1,6 @@
 import hashlib
 from django.shortcuts import render, redirect
-from myApp.models import Player, Game, Stat, Team
+from myApp.models import *
 from myApp.filters import GameFilter
 from myApp.forms import CreateUserForm, GameForm
 from django.contrib.auth.forms import UserCreationForm
@@ -36,13 +36,24 @@ def show_player_info(request):
     #     player.hash = hashlib.md5(player.name.encode('utf-8')).hexdigest()
     return render(request, 'players.html', context)
 
+def show_awards(request):
+        selected_award = None
+        if request.method == 'POST':
+            selected_award = request.POST.get('selected_award')
+        if selected_award:
+            awards = Award.objects.filter(name=selected_award)
+            print(awards)
+            return render(request, 'awards.html', {'awards': awards})
+        return render(request, 'awards.html')
+
 def get_player_stats(request, player_id):
     try:
         player = Player.objects.filter(id=player_id).values('name','team', 'position', 'jersey_number', 'bio')[0]
+        awards = list(Award.objects.filter(players__name__in=[player['name']]).values('name','year'))
+        print(awards)
         player_stats = list(Stat.objects.filter(player_id = player_id).values('game', 'points', 'rebounds', 'assists'))
         for stat in player_stats:
             game_id = stat['game']
-            print(game_id)
             stat['game_info'] = list(Game.objects.filter(id=game_id).order_by('date').values('date','home_team','away_team','home_team_score', 'away_team_score'))
             for field in stat['game_info'][0]:
                 if field == 'home_team' or field == 'away_team':
@@ -51,7 +62,7 @@ def get_player_stats(request, player_id):
     except IndexError:
         return JsonResponse({'error': 'Player stats not found'}, status=404)
     
-    return JsonResponse({'player': player, 'stats': player_stats})
+    return JsonResponse({'player': player, 'stats': player_stats, 'awards': awards})
 
 # @login_required(login_url='login')
 def show_games(request):

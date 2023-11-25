@@ -1,7 +1,7 @@
 import datetime
 from django import forms
 from django.contrib.auth.models import User
-from myApp.models import Game, Team
+from myApp.models import Game, Team, Player, Award
 from django.contrib.auth.forms import UserCreationForm
 from bootstrap_datepicker_plus.widgets import DatePickerInput
 from django.core.exceptions import ValidationError
@@ -12,12 +12,15 @@ class CreateUserForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
-class DateInput(forms.DateInput):
-    input_type = 'date'
+# class DateInput(forms.DateInput):
+#     input_type = 'date'
 
 class GameForm(forms.ModelForm):
-    date = forms.DateField(widget=forms.SelectDateWidget)
-    
+    # date = forms.DateField(widget=forms.SelectDateWidget)
+    date = forms.DateField(
+        widget=forms.SelectDateWidget(years=range(datetime.date.today().year, 1900, -1))
+    )
+    # date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', 'max': datetime.now().date()}))
     class Meta:
         model = Game
         fields = ['home_team', 'away_team', 'date', 'home_team_score', 'away_team_score']
@@ -34,3 +37,4 @@ class GameForm(forms.ModelForm):
             raise ValidationError("scores cannot be the same.")
 
         return cleaned_data
+

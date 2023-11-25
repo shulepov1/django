@@ -128,6 +128,7 @@
                 .then(function (data) {
                     const player = data.player;
                     const stats = data.stats;
+                    const awards = data.awards;
                     console.log(btn.id)
                     const player_team = document.getElementsByClassName(`player__team ${btn.id}`)[0].textContent;
                     modal.innerHTML = `
@@ -146,8 +147,17 @@
                                 ${player.bio || 'no info'}
                             </p>
                         </div>
+                        <div class="modal__awards">
+                        </div>
                         <div class="modal__games">
                         </div>`;
+                    const awardsElt = document.querySelector('.modal__awards');
+                    for (award of awards) {
+                        const awardElt = document.createElement('div');
+                        awardElt.textContent = `${award.name} ${award.year}`
+                        awardsElt.appendChild(awardElt);
+                    }
+                    
                     const gamesElt = document.querySelector('.modal__games');
                     for (stat of stats){
                         console.log(stat);

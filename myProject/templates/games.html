@@ -54,10 +54,10 @@
     }
     .games-container {
         font-family: "Special Elite", Courier;
-        max-width: 1500px;
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 5rem;
+        width: fit-content;
     }
     .add-game {
         max-width: 400px;
@@ -78,7 +78,6 @@
         border-radius: 0 !important;
         
     } */
-
 </style>
 <div class="games-container">
     <div class="games">
@@ -111,11 +110,10 @@
                     >
                         {{game.away_team}}
                     </div>
-                    
                 </div>
                 <form action="{% url 'game_delete' game.id %}" method="post">
                     {% csrf_token %}
-                    <input class="delete-game" type="submit" value="X">
+                    <input class="delete-game" type="submit" value="X" />
                 </form>
             </div>
             {% endfor %}
@@ -132,6 +130,7 @@
     </div>
     {% endif %}
 </div>
+
 <script>
     const form = document.querySelector(".form-teams");
     const resetBtn = form.querySelector(".btn-reset");

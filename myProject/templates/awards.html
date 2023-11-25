@@ -1,0 +1,37 @@
+{% extends 'base.html' %} {% block head %}
+<title>Awards</title>
+{% load crispy_forms_tags %} {% load static %} {% load user_tags %}
+<!-- <link rel="stylesheet" href="{% static 'reset.css' %}" /> -->
+<!-- <link rel="stylesheet" href="{% static 'games.css' %}" /> -->
+{% endblock head %} {% block content %}
+
+<style>
+    .awards-container {
+        background-color: black;
+        color: white;
+    }
+</style>
+<div class="awards-container">
+    <div>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" name="selected_award" value="MVP">MVP</button>
+            <button type="submit" name="selected_award" value="ROY">ROY</button>
+            <button type="submit" name="selected_award" value="DPOY">DPOY</button>
+            <button type="submit" name="selected_award" value="6MOY">6MOY</button>
+            <button type="submit" name="selected_award" value="MIP">MIP</button>
+        </form>
+    </div>
+    <div>
+        {% if awards %}
+            <h2>Players with the selected award:</h2>
+            <ul>
+                {% for award in awards %}
+                    <li>{{award.year}} {{award.players.all.first}}</li>
+                {% endfor %}
+            </ul>
+    {% endif %}
+    </div>
+   
+</div>
+{% endblock content %}

@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
@@ -53,3 +54,19 @@ class Stat(models.Model):
     assists = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(999)], help_text='Введите количество передач', null=False, blank=False)
     def __str__(self):
         return f"{self.player} in {self.game}"
+    
+class Award(models.Model):
+    names = (
+        ('MVP', 'Most Valuable Player'), # value and human-readable label
+        ('ROY', 'Rookie of the Year'),
+        ('DPOY', 'Defensive Player of the Year'),
+        ('6MOY', 'Sixth Man of the Year'),
+        ('MIP', 'Most Improved Player')
+    )
+    name = models.CharField(max_length=100, help_text='Название награды', null=False, blank=False, choices=names)
+    year = models.IntegerField(choices=[(r, r) for r in range(1900, datetime.date.today().year+1)])
+    players = models.ManyToManyField(Player, related_name='players')
+    def __str__(self):
+        return f"{self.year} {self.name}"
+    class Meta:
+        unique_together = ('name', 'year')

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django_filters'
 ]
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = ('bootstrap', 'uni_form', 'bootstrap3', 'bootstrap4','bootstrap5')
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 MIDDLEWARE = [
