@@ -70,3 +70,6 @@ class Award(models.Model):
         return f"{self.year} {self.name}"
     class Meta:
         unique_together = ('name', 'year')
+
+class Note(models.Model):
+    text = models.TextField(max_length=650, null=False, blank=False)

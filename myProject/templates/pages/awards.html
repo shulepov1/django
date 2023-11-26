@@ -1,0 +1,34 @@
+{% extends 'subtemplates/base.html' %} 
+
+{% block head %}
+<title>Awards</title>
+{% load crispy_forms_tags %} 
+{% load static %} 
+{% load user_tags %}
+<link rel="stylesheet" href="{% static 'css/pages/awards.css' %}" />
+{% endblock head %} 
+
+{% block content %}
+<div class="awards-container">
+    <div>
+        <form class="awards-list" method="POST">
+            {% csrf_token %}
+            <button class="award-option hover-underline-animation" type="submit" name="selected_award" value="MVP">MVP</button>
+            <button class="award-option hover-underline-animation" type="submit" name="selected_award" value="ROY">ROY</button>
+            <button class="award-option hover-underline-animation" type="submit" name="selected_award" value="DPOY">DPOY</button>
+            <button class="award-option hover-underline-animation" type="submit" name="selected_award" value="6MOY">6MOY</button>
+            <button class="award-option hover-underline-animation" type="submit" name="selected_award" value="MIP">MIP</button>
+        </form>
+    </div>
+    <div class="players-list">
+        {% if awards %}
+            <h3>Players who won {{ awards.all.first.name }}</h3>
+            <ul>
+                {% for award in awards %}
+                    <li>{{award.year}} {{award.players.all.first}}</li>
+                {% endfor %}
+            </ul>
+    {% endif %}
+    </div>
+</div>
+{% endblock content %}

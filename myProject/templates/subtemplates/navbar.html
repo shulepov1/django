@@ -1,0 +1,35 @@
+<nav>
+    <div class="greeting">
+        {% if user.is_authenticated %}
+        <span >Hello, {{ request.user }}</span>
+        {% endif %}
+    </div>
+
+    <div class="auth-options">
+        {% if user.is_authenticated%}
+        <span class="logout">
+            <a href="{% url 'logout' %}">
+                <button class="my-button" type="button">
+                    <span class="my-button-inside gray">Log Out</span>
+                </button>
+            </a>
+        </span>
+        {% else %}
+        
+        <span class="register">
+            <a href="{% url 'register' %}">
+                <button class="my-button" type="button">
+                    <span class="my-button-inside dark-brown">Register</span>
+                </button>
+            </a>
+        </span>
+        <span class="login">
+            <a href="{% url 'login' %}">
+                <button class="my-button" type="button">
+                    <span class="my-button-inside khaki">Log In</span>
+                </button>
+            </a>
+        </span>
+        {% endif %}
+    </div>
+</nav>

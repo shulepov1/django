@@ -1,0 +1,24 @@
+aside {
+    display: flex;
+}
+aside > ul  {
+    font-family: 'Times New Roman', Times, serif;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: min(32px, 3vw);
+}
+aside > ul :first-child {
+    margin-bottom: 1rem;
+}
+.aside-link {
+    padding: 5px;
+    text-decoration: none;
+    color: white;
+}
+.aside-link:hover {
+    color: white;
+    outline: 1px solid yellow;
+    background: black;
+}

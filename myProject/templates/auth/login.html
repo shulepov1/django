@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>LOGIN</title>
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1"
+        />
+
+        <!-- prettier-ignore -->
+        {% load django_bootstrap5 %} 
+        {% bootstrap_css %} 
+        {% bootstrap_javascript %}
+
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/utilities/button.css' %}">
+        <link rel="stylesheet" href="{% static 'css/utilities/reset.css' %}">
+        <link rel="stylesheet" href="{% static 'css/utilities/font.css' %}">
+        <link rel="stylesheet" href="{% static 'css/utilities/text.css' %}">
+
+        <link rel="stylesheet" href="{% static 'css/auth/register.css' %}" />
+    </head>
+    <body class="form-v9">
+        <div class="page-content">
+            {% for message in messages %}
+            <p id="messages">{{ message }}</p>
+            {% endfor %}
+            <div
+                class="form-v9-content"
+            >
+                <form class="form-detail" action="" method="POST">
+                    {% csrf_token %}
+                    <h2>Login</h2>
+                    <div class="form-row-total">
+                        <div class="form-row">
+                            <input type="text" name="username" />
+                        </div>
+                    </div>
+                    <div class="form-row-total">
+                        <div class="form-row">
+                            <input type="password" name="password" />
+                        </div>
+                    </div>
+                    <div class="form-row-last">
+                        <button type="submit"
+                        name="login"
+                        class="register my-button"
+                        value="Login">
+                            <span class="my-button-inside khaki">
+                                Login</span>
+                        </button>
+                    </div>
+
+                    <div class="form-row-last">
+                        <div class="d-flex justify-content-center gap-3 links">
+                            Don't have an account?
+                            <a href="{% url 'register' %}" class="ml-2"
+                                >Register</a
+                            >
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script>
+            const form_fields = document.getElementsByTagName("input");
+            form_fields[1].placeholder = "Username..";
+            form_fields[2].placeholder = "Enter password...";
+            for (var field in form_fields) {
+                form_fields[field].className += " input-text";
+            }
+        </script>
+    </body>
+</html>

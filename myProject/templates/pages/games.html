@@ -1,0 +1,91 @@
+{% extends 'subtemplates/base.html' %} 
+
+{% block head %}
+<title>Games</title>
+{% load crispy_forms_tags %} 
+{% load static %} 
+{% load user_tags %}
+<link rel="stylesheet" href="{% static 'css/pages/games.css' %}" />
+{% endblock head %} 
+
+{% block content %}
+<div class="games-container">
+    <div class="games">
+        <h3 class="title">choose teams...</h3>
+        <form class="form-teams" method="get">
+            {% csrf_token %}
+            {{ filter.form.as_p }}
+            <button class="btn-reset my-button mybtn-small" type="button">
+                <span class="my-button-inside dark-red">reset</span>
+            </button>
+        </form>
+
+        <ul class="games-list">
+            {% for game in filter.qs %}
+            <div class="game" id="{{game.id}}">
+                <div class="game__date">
+                    <span>{{game.date}} : </span>
+                </div>
+                <div class="game__score">
+                    <div
+                        class="home-team {% if game.home_team_score > game.away_team_score %} winning-team {% endif %}"
+                    >
+                        {{game.home_team}}
+                    </div>
+                    <div>
+                        <span>{{game.home_team_score}}</span>
+                        -
+                        <span>{{game.away_team_score}}</span>
+                    </div>
+                    <div
+                        class="away-team {% if game.home_team_score < game.away_team_score %} winning-team {% endif %}"
+                    >
+                        {{game.away_team}}
+                    </div>
+                </div>
+                {% if user.is_staff %}
+                <form action="{% url 'game_delete' game.id %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn-reset my-button mybtn-small delete-game" type="submit" value="X">
+                        <span class="my-button-inside dark-red">x</span>
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% if user.is_staff %}
+    <div class="add-game">
+        <h3 class="title">add game...</h3>
+        <form class="form-add-game" action="" method="POST">
+            {% csrf_token %} {{ form|crispy }}
+            <button class="my-button mybtn-small" type="submit">
+                <span class="my-button-inside dark-green">Submit</span>
+            </button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    const form = document.querySelector(".form-teams");
+    const resetBtn = form.querySelector(".btn-reset");
+
+    const selects = form.querySelectorAll("select");
+    selects.forEach(function (select) {
+        select.addEventListener("change", function (event) {
+            form.submit();
+        });
+    });
+
+    resetBtn.addEventListener("click", function () {
+        selects.forEach(function (select) {
+            select.selectedIndex = 0;
+            form.submit();
+            console.log(select.selectedIndex);
+        });
+    });
+</script>
+{% endblock content %}

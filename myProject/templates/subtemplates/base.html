@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../static/images/favicon.ico" rel="icon" type="image/x-icon">
+    {% load django_bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+    {% block head %}
+    <title>Base Template</title>
+    {% endblock head %}
+
+</head>
+
+<body>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/utilities/button.css' %}">
+    <link rel="stylesheet" href="{% static 'css/utilities/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/utilities/font.css' %}">
+    <link rel="stylesheet" href="{% static 'css/utilities/text.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/subtemplates/nav.css' %}">
+    <link rel="stylesheet" href="{% static 'css/subtemplates/sidebar.css' %}">
+    <style>
+        html, body, .content{min-height:100%;}
+        body{min-height:100vh;}
+        body {
+            background: url("../static/images/textures/mainwp.jpeg");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        main {
+            display: grid;
+            grid-template-columns: max-content 1fr;
+        }
+    </style>
+    <div class="content">
+        <header>
+            {% include 'subtemplates/navbar.html' %}
+        </header>
+        <main>
+                {% include 'subtemplates/sidebar.html' %}
+    
+                {% block content %}
+                {% endblock content %}
+        </main>
+    </div>
+    
+    
+</body>
+
+</html>

@@ -12,15 +12,11 @@ class CreateUserForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
-# class DateInput(forms.DateInput):
-#     input_type = 'date'
 
 class GameForm(forms.ModelForm):
-    # date = forms.DateField(widget=forms.SelectDateWidget)
     date = forms.DateField(
         widget=forms.SelectDateWidget(years=range(datetime.date.today().year, 1900, -1))
     )
-    # date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', 'max': datetime.now().date()}))
     class Meta:
         model = Game
         fields = ['home_team', 'away_team', 'date', 'home_team_score', 'away_team_score']

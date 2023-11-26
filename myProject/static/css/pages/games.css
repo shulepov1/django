@@ -1,0 +1,72 @@
+.games {
+    color: white;
+    background: rgba(0, 0, 0, 0.42);
+
+    width: 650px;
+    padding: 1rem;
+}
+.form-teams {
+    font-size: 0.9rem;
+}
+.games-list {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-top: 1px solid hotpink;
+    padding: 0;
+    padding-top: 2rem;
+}
+.game {
+    display: grid;
+    grid-template-columns: 100px 1fr 50px;
+    gap: 2.5rem;
+    align-items: center;
+}
+.game__score {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr fit-content(100px) 1fr;
+    align-items: center;
+    gap: 3rem;
+}
+.home-team {
+    text-align: left;
+}
+.away-team {
+    text-align: right;
+}
+.game__date {
+    color: gray;
+    font-size: 0.8125em;
+}
+.winning-team {
+    color: gold;
+}
+.title {
+    margin-bottom: 1.5rem;
+}
+.games-container {
+    font-family: "Special Elite", Courier;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    width: fit-content;
+}
+.add-game {
+    max-width: 540px;
+    background: rgba(0, 0, 0, 0.42);
+    
+    background-size: contain;
+    background-repeat: no-repeat;
+    color: white;
+    font-size: 0.825rem;
+    padding-inline: 3rem;
+    padding-block: 1rem;
+}
+.form-text{
+    color: gainsboro;
+}
+main {
+    justify-items: center;
+}

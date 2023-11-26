@@ -1,0 +1,18 @@
+nav {
+    font-family: 'Times New Roman', Times, serif;
+    color: white;
+    font-size: 1.25rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 2rem;
+    padding-block: 1rem;
+    padding-left: 3rem;
+    padding-right: 4rem;
+}
+.greeting {
+    margin-right: auto;
+}
+.auth-options {
+    display: flex;
+    gap: 2rem;
+}
