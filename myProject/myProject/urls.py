@@ -28,5 +28,8 @@ urlpatterns = [
     path('awards/', views.show_awards, name='awards'),
     path('register/', views.registerPage, name='register'),
     path('login/', views.loginPage, name='login'),
-    path('logout/', views.logoutUser, name='logout')
+    path('logout/', views.logoutUser, name='logout'),
+    path('validate_username/', views.validate_username, name='validate_username'),
+    path('validate_email/', views.validate_email, name='validate_email')
+
 ]
