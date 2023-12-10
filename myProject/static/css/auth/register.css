@@ -1,23 +1,32 @@
-
 html,
 body,
 .page-content {
     height: 100%;
-    font-family: 'Special Elite', Courier;
+    font-family: "Special Elite", Courier;
 }
-body{
-    background: url('../../images/textures/green-bg.png');
+body {
+    background: url("../../images/textures/green-bg.png");
     background-size: cover;
 }
-input, input::placeholder {
+input,
+input::placeholder {
     line-height: 1.5em;
     padding: 1px;
 }
-input{
+input {
     padding-inline: 3px;
 }
 #messages {
     color: #000;
+}
+
+.form__message {
+    font-size: 0.9375rem;
+    color: #520607;
+    width: 200%;
+    position: absolute;
+    top: 1.7rem;
+    left: -10%;
 }
 .page-content {
     width: 100%;
@@ -48,17 +57,26 @@ input{
     box-shadow: 0 0 8px #000;
     /* z-index: -1; */
     position: relative;
-    background: linear-gradient(90deg,#88868b,#a7a2a6 10%,#a09b9f 50%,#8f8d93 75%,#625f60 90%,#4a4645);
+    background: linear-gradient(
+        90deg,
+        #88868b,
+        #a7a2a6 10%,
+        #a09b9f 50%,
+        #8f8d93 75%,
+        #625f60 90%,
+        #4a4645
+    );
     border-radius: 4px;
-    border: 3px outset hsla(300,5%,79%,.75);
-    outline: 2px solid rgba(0,0,0,.5);
-    box-shadow: -2px 2px 1px rgba(0,0,0,.75), inset 0 0 4px #cbc6cb, 4px 4px 0 rgba(0,0,0,.75);
-    filter: drop-shadow(-2px 4px 0 rgba(0,0,0,.5));
+    border: 3px outset hsla(300, 5%, 79%, 0.75);
+    outline: 2px solid rgba(0, 0, 0, 0.5);
+    box-shadow: -2px 2px 1px rgba(0, 0, 0, 0.75), inset 0 0 4px #cbc6cb,
+        4px 4px 0 rgba(0, 0, 0, 0.75);
+    filter: drop-shadow(-2px 4px 0 rgba(0, 0, 0, 0.5));
     padding: 2rem;
     position: relative;
 }
 .form-v9-content::after {
-    background-image: url('../../images/textures/metal-small-cover.png');
+    background-image: url("../../images/textures/metal-small-cover.png");
     z-index: -1;
     position: absolute;
     content: "";
@@ -73,12 +91,22 @@ input{
 .form-detail {
     display: flex;
     flex-direction: column;
-    align-items: center;    
+    align-items: center;
     gap: 2rem;
 }
 
-.form-detail > * {
+.form-row-total,
+.form-row {
     width: fit-content;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    position: relative;
+}
+.form-row-total {
+    gap: 2rem;
 }
 
 a {

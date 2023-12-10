@@ -29,6 +29,9 @@
                 {% endfor %}
             </ul>
     {% endif %}
-    </div>
+</div>  
+    {% if user.is_staff %}
+        <a id="add_award" href="{% url 'add_award' %}" class="hover-underline-animation"> add award</a>
+    {% endif %}
 </div>
 {% endblock content %}

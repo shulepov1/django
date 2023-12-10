@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8" />
+    <head>
+        <meta charset="utf-8" />
         <title>REGISTER</title>
         <meta
             name="viewport"
@@ -15,58 +14,123 @@
         {% bootstrap_javascript %}
 
         {% load static %}
-        <link rel="stylesheet" href="{% static 'css/utilities/button.css' %}">
-        <link rel="stylesheet" href="{% static 'css/utilities/reset.css' %}">
-        <link rel="stylesheet" href="{% static 'css/utilities/font.css' %}">
-        <link rel="stylesheet" href="{% static 'css/utilities/text.css' %}">
+        <link rel="stylesheet" href="{% static 'css/utilities/button.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/utilities/reset.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/utilities/font.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/utilities/text.css' %}" />
 
         <link rel="stylesheet" href="{% static 'css/auth/register.css' %}" />
-</head>
+    </head>
 
-<body class="form-v9">
-    <div class="page-content">
-        <div class="form-v9-content">
-            <form class="form-detail" action="" method="POST">
-                {% csrf_token %}
-                <h2>Register</h2>
-                <div class="form-row-total">
-                    <div class="form-row">{{form.username}}</div>
-                    <div class="form-row">{{form.email}}</div>
-                </div>
-                <div class="form-row-total">
-                    <div class="form-row">{{form.password1}}</div>
-                    <div class="form-row">{{form.password2}}</div>
-                </div>
-                <div class="form-row-last">
-                    <!-- <input type="submit" name="register" class="register" value="Register" /> -->
-                    <button type="submit" name="register" class="register my-button" value="Register">
-                            <span class="my-button-inside dark-brown">
-                                Register</span>
-                        </button>
-                </div>
-                {{ form.errors }}
-                <div class="form-row-last">
-                    <div class="d-flex justify-content-center gap-3 links">
-                        Already have an account?
-                        <a href="{% url 'login' %}" class="ml-2">Login</a>
+    <body class="form-v9">
+        <div class="page-content">
+            <div class="form-v9-content">
+                <form class="form-detail" action="" method="POST">
+                    {% csrf_token %}
+                    <h2>Register</h2>
+                    <div class="form-row-total">
+                        <div class="form-row">
+                            {{form.username}}
+                            <div id="username__msg" class="form__message"></div>
+                        </div>
+                        <div class="form-row">
+                            {{form.email}}
+                            <div id="email__msg" class="form__message"></div>
+                        </div>
                     </div>
-                </div>
-            </form>
+                    <div class="form-row-total">
+                        <div class="form-row">{{form.password1}}</div>
+                        <div class="form-row">{{form.password2}}</div>
+                    </div>
+                    <div class="form-row-last">
+                        <button
+                            type="submit"
+                            name="register"
+                            class="register my-button"
+                            id="register"
+                            value="Register"
+                        >
+                            <span class="my-button-inside dark-brown">
+                                Register</span
+                            >
+                        </button>
+                    </div>
+                    {{ form.errors }}
+                    <div class="form-row-last">
+                        <div class="d-flex justify-content-center gap-3 links">
+                            Already have an account?
+                            <a href="{% url 'login' %}" class="ml-2">Login</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <script>
-        //Query All input fields
-        const form_fields = document.getElementsByTagName("input");
-        form_fields[1].placeholder = "Username..";
-        form_fields[2].placeholder = "Email..";
-        form_fields[3].placeholder = "Enter password...";
-        form_fields[4].placeholder = "Re-enter Password...";
+        <script>
+            let fieldsAreValid = true; // username and input not taken
+            const form = document.querySelector("form");
+            const submitBtn = document.querySelector("button#register");
+            submitBtn.addEventListener("click", function (event) {
+                event.preventDefault();
+                if (fieldsAreValid) {
+                    form.submit();
+                }
+            });
 
-        for (var field in form_fields) {
-            form_fields[field].className += " input-text";
-        }
-    </script>
-</body>
+            //Query All input fields
+            const form_fields = document.getElementsByTagName("input");
+            form_fields[1].placeholder = "Username..";
+            form_fields[2].placeholder = "Email..";
+            form_fields[3].placeholder = "Enter password...";
+            form_fields[4].placeholder = "Re-enter Password...";
 
+            for (var field in form_fields) {
+                form_fields[field].className += " input-text";
+            }
+
+            // VALIDATE USERNAME
+            const usernameInput = document.querySelector("#id_username");
+            const usernameMessage = document.querySelector("#username__msg");
+            usernameInput.addEventListener("input", async function () {
+                const response = await fetch(
+                    "{% url 'validate_username' %}?" +
+                        new URLSearchParams({
+                            username: usernameInput.value,
+                        })
+                );
+                const data = await response.json();
+                if (data.is_taken === true) {
+                    usernameMessage.textContent =
+                        "This username is already taken";
+                    fieldsAreValid = false;
+                } else {
+                    usernameMessage.textContent = "";
+                    fieldsAreValid = true;
+                }
+            });
+
+            // VALIDATE EMAIL
+            const emailInput = document.querySelector("#id_email");
+            const emailMessage = document.querySelector("#email__msg");
+            emailInput.addEventListener("input", async function () {
+                if (!emailInput.value) {
+                    return;
+                }
+                const response = await fetch(
+                    "{% url 'validate_email' %}?" +
+                        new URLSearchParams({
+                            email: emailInput.value,
+                        })
+                );
+                const data = await response.json();
+                if (data.is_taken === true) {
+                    emailMessage.textContent = "This email is already taken";
+                    fieldsAreValid = false;
+                } else {
+                    emailMessage.textContent = "";
+                    fieldsAreValid = true;
+                }
+            });
+        </script>
+    </body>
 </html>

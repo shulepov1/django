@@ -34,3 +34,8 @@ class GameForm(forms.ModelForm):
 
         return cleaned_data
 
+class AwardForm(forms.ModelForm):
+    class Meta:
+        model = Award
+        fields = ['name', 'year', 'players']
+    

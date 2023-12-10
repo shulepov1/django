@@ -57,15 +57,15 @@ class Stat(models.Model):
     
 class Award(models.Model):
     names = (
-        ('MVP', 'Most Valuable Player'), # value and human-readable label
-        ('ROY', 'Rookie of the Year'),
-        ('DPOY', 'Defensive Player of the Year'),
-        ('6MOY', 'Sixth Man of the Year'),
-        ('MIP', 'Most Improved Player')
+        ('MVP', 'MVP (Most Valuable Player)'), 
+        ('ROY', 'ROY (Rookie of the Year)'), 
+        ('DPOY', 'DPOY (Defensive Player of the Year)'), 
+        ('6MOY', '6MOY (6th Man of the Year)'), 
+        ('MIP', 'MIP (Most Improved Player)')
     )
     name = models.CharField(max_length=100, help_text='Название награды', null=False, blank=False, choices=names)
-    year = models.IntegerField(choices=[(r, r) for r in range(1900, datetime.date.today().year+1)])
-    players = models.ManyToManyField(Player, related_name='players')
+    year = models.IntegerField(help_text='Год выдачи', choices=[(r, r) for r in range(datetime.date.today().year, 1900, -1)])
+    players = models.ManyToManyField(Player, related_name='players', help_text='Игрок, получивший')
     def __str__(self):
         return f"{self.year} {self.name}"
     class Meta:
