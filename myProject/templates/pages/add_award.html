@@ -1,0 +1,89 @@
+{% extends 'subtemplates/base.html' %} {% block head %}
+<title>Add Award</title>
+{% load crispy_forms_tags %} {% load static %} {% load user_tags %}
+<link rel="stylesheet" href="{% static 'css/pages/add_award.css' %}" />
+{% endblock head %} {% block content %}
+<div class="add-award">
+    <h3 class="title">add award!</h3>
+    <form class="form-add-award" method="POST" action="">
+        {% csrf_token %} {{form|crispy}}
+        <button class="my-button mybtn-small" type="submit">
+            <span class="my-button-inside dark-green">Submit</span>
+        </button>
+        <div id="form__msg"></div>
+    </form>
+</div>
+<div class="tropheys">
+    <div class="background_trophey1">
+        <img src="../../static/images/tropheys/trophey1.png" alt="" />
+    </div>
+    <div class="background_trophey2">
+        <img src="../../static/images/tropheys/trophey2.png" alt="" />
+    </div>
+    <div class="background_trophey3">
+        <img src="../../static/images/tropheys/trophey3.png" alt="" />
+    </div>
+</div>
+
+<script>
+    const images = document.querySelectorAll("img");
+
+    function invertImages(percent) {
+        images.forEach((img) => {
+            img.style.filter = `drop-shadow(16px 16px 25px black) invert(${percent}%)`;
+        });
+    }
+    let fieldsAreValid = true;
+    const validationMessage = document.getElementById("form__msg");
+    const nameInput = document.getElementById("id_name");
+    const yearInput = document.getElementById("id_year");
+
+    const playersInput = document.querySelector("#id_players");
+    playersInput.removeAttribute("multiple");
+
+    let data;
+
+    fetch("{% url 'get_awards' %}")
+        .then((response) => {
+            return response.json();
+        })
+        .then((dt) => {
+            data = dt;
+            [nameInput, yearInput].forEach((input) => {
+                input.addEventListener("input", checkAward);
+            });
+        });
+
+    function checkAward() {
+        const name =
+            nameInput.options[nameInput.selectedIndex].text.split(" ")[0];
+        const year = Number(yearInput.options[yearInput.selectedIndex].text);
+
+        let taken = false;
+        for (award of data.awards) {
+            if (award.name === name && award.year === year) {
+                taken = true;
+            }
+        }
+        if (taken) {
+            validationMessage.textContent =
+                "Такую награду в этот год уже давали.";
+            invertImages(100);
+            fieldsAreValid = false;
+        } else {
+            validationMessage.textContent = "";
+            invertImages(0);
+            fieldsAreValid = true;
+        }
+    }
+
+    const form = document.querySelector("form");
+    const submitBtn = form.querySelector("button[type='submit']");
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        if (fieldsAreValid) {
+            form.submit();
+        }
+    });
+</script>
+{% endblock content %}

@@ -2,7 +2,7 @@ import hashlib
 from django.shortcuts import render, redirect, get_object_or_404
 from myApp.models import Team, Player, Game, Stat, Award, Note
 from myApp.filters import GameFilter
-from myApp.forms import CreateUserForm, GameForm
+from myApp.forms import CreateUserForm, GameForm, AwardForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -30,6 +30,28 @@ def show_awards(request):
         awards = Award.objects.filter(name=selected_award)
         return render(request, 'pages/awards.html', {'awards': awards})
     return render(request, 'pages/awards.html')
+
+def add_award(request):
+    context = {}
+
+    if request.method == 'POST':
+        form = AwardForm(request.POST)
+        if form.is_valid():
+            form.save()
+            form = AwardForm
+            return redirect('awards')
+    else:
+        form = AwardForm()
+    context['form'] = form
+    return render(request, 'pages/add_award.html', context)
+
+def get_awards(request):
+    try:
+        awards = list(Award.objects.all().values('name', 'year'))
+    except IndexError:
+        return JsonResponse({'error' : "Award stats not found"}, status=404)
+    
+    return JsonResponse({'awards': awards})
 
 def get_player_stats(request, player_id):
     try:

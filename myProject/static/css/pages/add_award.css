@@ -1,0 +1,117 @@
+.add-award {
+    width: 650px;
+    padding: 1rem;
+    color: white;
+    background: rgba(0, 0, 0, 0.42);
+
+    font-family: "Special Elite", Courier !important;
+}
+
+.title {
+    margin-bottom: 1.5rem;
+}
+
+#form__msg {
+    margin-top: 1rem;
+    color: white;
+    font-weight: bold;
+    width: max-content;
+    font-size: 0.9375em;
+
+    text-shadow: -1px -1px 3px #f00, 1px -1px 3px #f00, -1px 1px 3px #f00,
+        1px 1px 3px #f00;
+}
+
+.background_trophey1,
+.background_trophey2,
+.background_trophey3 {
+    position: fixed;
+    z-index: -1;
+}
+img {
+    opacity: 0.75;
+    filter: drop-shadow(16px 16px 25px black);
+    transition: 0.15s ease-in-out;
+}
+.background_trophey1 {
+    top: -30%;
+    right: -10%;
+    transform: rotate(-30deg);
+}
+.background_trophey1 > img {
+    animation: bgfloat1 36s ease-in-out infinite;
+}
+.background_trophey2 {
+    transform: rotate(-75deg);
+    top: 0;
+    left: 15%;
+}
+.background_trophey2 > img {
+    animation: bgfloat2 20s ease-in-out infinite;
+}
+.background_trophey3 {
+    transform: rotate(150deg);
+    top: -25%;
+    left: 15%;
+}
+.background_trophey3 > img {
+    animation: bgfloat3 16s ease-in-out infinite;
+}
+
+@keyframes bgfloat1 {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(10%) rotate(13deg);
+    }
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+@keyframes bgfloat2 {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-2%) rotate(8deg);
+    }
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+@keyframes bgfloat3 {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-2%) rotate(2deg);
+    }
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+@media (max-width: 1200px) {
+    .content {
+        height: 100vh;
+    }
+    .background_trophey1,
+    .background_trophey2,
+    .background_trophey3 {
+        width: 65vw;
+    }
+    .background_trophey1 {
+        top: 0;
+    }
+    .background_trophey2 {
+        width: 90vw;
+        left: 15%;
+        bottom: -50%;
+    }
+}
+@media (max-width: 700px) {
+    .background_trophey2 {
+        left: 100%;
+    }
+}

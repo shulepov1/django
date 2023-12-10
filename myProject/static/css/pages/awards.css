@@ -2,6 +2,7 @@
 .awards-container {
     display: grid;
     grid-template-columns: 300px 300px;
+    justify-items: center;
     font-family: 'Times New Roman', Times, serif;
 }
 .awards-list {
@@ -41,4 +42,11 @@ transition: transform 0.25s ease-out;
 .hover-underline-animation:hover::after {
 transform: scaleX(1);
 transform-origin: bottom left;
+}
+
+#add_award {
+    margin-top: 1rem;
+    color: white;
+    text-decoration: none;
+    max-height: 30px;
 }
