@@ -1,52 +1,72 @@
-
 .awards-container {
+    max-width: 1500px;
     display: grid;
-    grid-template-columns: 300px 300px;
+    grid-template-columns: 1fr 1fr;
     justify-items: center;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: "Times New Roman", Times, serif;
+
+    font-family: "handwriting";
+    font-size: clamp(1rem, 4vw, 2.5rem);
 }
 .awards-list {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     align-items: center;
+
+    height: 100%;
+    max-height: 70vh;
+    overflow: auto;
 }
-button.award-option{
+button.award-option {
     background: transparent;
     border: none;
     color: white;
 }
+
+.award-option:hover {
+    color: #800000;
+    transform: scale(1.25);
+}
+.players-list-cont {
+    height: 70vh;
+    background: url("../../images/textures/Paper-texture.jpg");
+    color: #800000;
+    width: 100%;
+    max-width: 650px;
+    padding: 1rem 1rem 0 1rem;
+
+    position: relative;
+}
+.pin-cont {
+    max-width: 30%;
+    transform: rotate(160deg) translateX(-15%) translateY(28%);
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 .players-list {
-    color: white;
-}
-
-.hover-underline-animation {
-display: inline-block;
-position: relative;
-color: #ffffff;
-}
-
-.hover-underline-animation::after {
-content: '';
-position: absolute;
-width: 100%;
-transform: scaleX(0);
-height: 1px;
-bottom: 0;
-left: 0;
-background-color: #ffffff;
-transform-origin: bottom right;
-transition: transform 0.25s ease-out;
-}
-
-.hover-underline-animation:hover::after {
-transform: scaleX(1);
-transform-origin: bottom left;
+    max-height: 100%;
+    overflow: auto;
 }
 
 #add_award {
-    margin-top: 1rem;
+    display: block;
+    margin-bottom: 1rem;
+
     color: white;
     text-decoration: none;
-    max-height: 30px;
+}
+#add_award:hover {
+    color: #dc143c;
+}
+
+.players-list > li {
+    margin-top: 0.5rem;
+    padding-left: 10px;
+    list-style-type: none;
+}
+.players-list > li:hover {
+    background-color: rgba(255, 255, 255, 0.515);
 }

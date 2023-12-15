@@ -1,2 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Special+Elite&display=swap");
 
+@font-face {
+    font-family: "handwriting";
+    src: url("../../fonts/jennys-handwriting/JennysHandwriting-rvwK.ttf")
+            format("truetype"),
+        url("../../fonts/jennys-handwriting/JennysHandwriting.woff")
+            format("woff"),
+        url("../../fonts/jennys-handwriting/JennysHandwriting.woff2")
+            format("woff2");
+}

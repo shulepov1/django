@@ -1,12 +1,8 @@
-{% extends 'subtemplates/base.html' %} 
-
-{% block head %}
+{% extends 'subtemplates/base.html' %} {% block head %}
 <title>PLAYERS</title>
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/pages/players.css' %}">
-{% endblock head %} 
-
-{% block content %}
+<link rel="stylesheet" href="{% static 'css/pages/players.css' %}" />
+{% endblock head %} {% block content %}
 <div class="players-container">
     <div class="players">
         {% for player in players %}
@@ -18,9 +14,10 @@
         </div>
         {% endfor %}
     </div>
-    <div class="stats-modal">
-        <p>click 'see info' on any player card
-        </p>
+    <div class="stats-modal-container">
+        <div class="stats-modal">
+            <p>click 'see info' on any player card</p>
+        </div>
     </div>
 </div>
 
@@ -41,59 +38,76 @@
                     const player = data.player;
                     const stats = data.stats;
                     const awards = data.awards;
-                    console.log(btn.id)
-                    const player_team = document.getElementsByClassName(`player__team ${btn.id}`)[0].textContent;
+                    console.log(btn.id);
+                    const player_team = document.getElementsByClassName(
+                        `player__team ${btn.id}`
+                    )[0].textContent;
                     modal.innerHTML = `
                         <div class="modal__player">
                             <div>
-                                <span class="modal__name player__name strokeme">${player.name}</span
+                                <span class="modal__name player__name strokeme">${
+                                    player.name
+                                }</span
                                 ><span class="modal__team player__team">${player_team}</span>
                             </div>
                             <div>
-                                <span class="modal__pos">${player.position}</span
-                                ><span class="modal__num">${player.jersey_number}</span>
+                                <span class="modal__pos">${
+                                    player.position
+                                }</span
+                                ><span class="modal__num">${
+                                    player.jersey_number
+                                }</span>
                             </div>
                         </div>
                         <div class="modal__bio">
                             <p>
-                                ${player.bio || 'no info'}
+                                ${player.bio || "no info"}
                             </p>
                         </div>
                         <div class="modal__awards">
                         </div>
                         <div class="modal__games">
                         </div>`;
-                    const awardsElt = document.querySelector('.modal__awards');
+                    const awardsElt = document.querySelector(".modal__awards");
                     for (award of awards) {
-                        const awardElt = document.createElement('div');
-                        awardElt.textContent = `${award.name} ${award.year}`
+                        const awardElt = document.createElement("div");
+                        awardElt.textContent = `${award.name} ${award.year}`;
                         awardsElt.appendChild(awardElt);
                     }
-                    
-                    const gamesElt = document.querySelector('.modal__games');
-                    for (stat of stats){
+
+                    const gamesElt = document.querySelector(".modal__games");
+                    for (stat of stats) {
                         console.log(stat);
-                        const gameElt = document.createElement('div');
-                        gameElt.classList.add('modal__game');
-                        const dateElt = document.createElement('span');
-                        dateElt.classList.add('game__date');
-                        dateElt.textContent = stat['game_info'][0].date + " | ";
-                        const homeTeamElt = document.createElement('span');
-                        homeTeamElt.classList.add('game__hometeam');
-                        homeTeamElt.textContent = stat['game_info'][0].home_team + " vs ";
-                        const awayTeamElt = document.createElement('span');
-                        awayTeamElt.classList.add('game__awayteam');
-                        awayTeamElt.textContent = stat['game_info'][0].away_team + " | ";
-                        const pointsElt = document.createElement('span');
-                        pointsElt.classList.add('game__points');
+                        const gameElt = document.createElement("div");
+                        gameElt.classList.add("modal__game");
+                        const dateElt = document.createElement("span");
+                        dateElt.classList.add("game__date");
+                        dateElt.textContent = stat["game_info"][0].date + " | ";
+                        const homeTeamElt = document.createElement("span");
+                        homeTeamElt.classList.add("game__hometeam");
+                        homeTeamElt.textContent =
+                            stat["game_info"][0].home_team + " vs ";
+                        const awayTeamElt = document.createElement("span");
+                        awayTeamElt.classList.add("game__awayteam");
+                        awayTeamElt.textContent =
+                            stat["game_info"][0].away_team + " | ";
+                        const pointsElt = document.createElement("span");
+                        pointsElt.classList.add("game__points");
                         pointsElt.textContent = stat.points + "p ";
-                        const reboundsElt = document.createElement('span');
-                        reboundsElt.classList.add('game__rebounds');
+                        const reboundsElt = document.createElement("span");
+                        reboundsElt.classList.add("game__rebounds");
                         reboundsElt.textContent = stat.rebounds + "reb ";
-                        const assistsElt = document.createElement('span');
-                        assistsElt.classList.add('game__assists');
+                        const assistsElt = document.createElement("span");
+                        assistsElt.classList.add("game__assists");
                         assistsElt.textContent = stat.assists + "as";
-                        gameElt.append(dateElt, homeTeamElt, awayTeamElt, pointsElt, reboundsElt, assistsElt);
+                        gameElt.append(
+                            dateElt,
+                            homeTeamElt,
+                            awayTeamElt,
+                            pointsElt,
+                            reboundsElt,
+                            assistsElt
+                        );
                         gamesElt.appendChild(gameElt);
                     }
                 });

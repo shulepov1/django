@@ -23,12 +23,6 @@ def show_player_info(request):
     return render(request, 'pages/players.html', context)
 
 def show_awards(request):
-    selected_award = None
-    if request.method == 'POST':
-        selected_award = request.POST.get('selected_award')
-    if selected_award:
-        awards = Award.objects.filter(name=selected_award)
-        return render(request, 'pages/awards.html', {'awards': awards})
     return render(request, 'pages/awards.html')
 
 def add_award(request):
@@ -47,16 +41,25 @@ def add_award(request):
 
 def get_awards(request):
     try:
-        awards = list(Award.objects.all().values('name', 'year'))
+        awards = Award.objects.all()
+        awards_list = []
+        for award in awards:
+            player = list(award.players.all().values('name'))[0]
+            awards_list.append({
+                'name': award.name,
+                'year': award.year,
+                'player': player
+            })
+
     except IndexError:
         return JsonResponse({'error' : "Award stats not found"}, status=404)
     
-    return JsonResponse({'awards': awards})
+    return JsonResponse({'awards': awards_list})
 
 def get_player_stats(request, player_id):
     try:
         player = Player.objects.filter(id=player_id).values('name','team', 'position', 'jersey_number', 'bio')[0]
-        awards = list(Award.objects.filter(players__name__in=[player['name']]).values('name','year'))
+        awards = list(Award.objects.filter(players__name__in=[player['name']]).order_by('year').values('name','year'))
         player_stats = list(Stat.objects.filter(player_id = player_id).values('game', 'points', 'rebounds', 'assists'))
         for stat in player_stats:
             game_id = stat['game']
@@ -72,7 +75,7 @@ def get_player_stats(request, player_id):
 
 def show_games(request):
     context = {}
-    games = Game.objects.all().order_by('date')
+    games = Game.objects.all().order_by('-date')
     game_filter = GameFilter(request.GET, queryset=games)
 
     if request.method == "POST":

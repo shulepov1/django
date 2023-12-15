@@ -1,37 +1,100 @@
-{% extends 'subtemplates/base.html' %} 
-
-{% block head %}
+{% extends 'subtemplates/base.html' %} {% block head %}
 <title>Awards</title>
-{% load crispy_forms_tags %} 
-{% load static %} 
-{% load user_tags %}
+{% load crispy_forms_tags %} {% load static %} {% load user_tags %}
 <link rel="stylesheet" href="{% static 'css/pages/awards.css' %}" />
-{% endblock head %} 
-
-{% block content %}
+{% endblock head %} {% block content %}
 <div class="awards-container">
     <div>
-        <form class="awards-list" method="POST">
-            {% csrf_token %}
-            <button class="award-option hover-underline-animation" type="submit" name="selected_award" value="MVP">MVP</button>
-            <button class="award-option hover-underline-animation" type="submit" name="selected_award" value="ROY">ROY</button>
-            <button class="award-option hover-underline-animation" type="submit" name="selected_award" value="DPOY">DPOY</button>
-            <button class="award-option hover-underline-animation" type="submit" name="selected_award" value="6MOY">6MOY</button>
-            <button class="award-option hover-underline-animation" type="submit" name="selected_award" value="MIP">MIP</button>
-        </form>
+        <a id="add_award" href="{% url 'add_award' %}"> add award</a>
+
+        <div class="awards-list">
+            <button
+                class="award-option"
+                type="button"
+                name="selected_award"
+                value="MVP"
+            >
+                MVP
+            </button>
+            <button
+                class="award-option"
+                type="button"
+                name="selected_award"
+                value="ROY"
+            >
+                ROY
+            </button>
+            <button
+                class="award-option"
+                type="button"
+                name="selected_award"
+                value="DPOY"
+            >
+                DPOY
+            </button>
+            <button
+                class="award-option"
+                type="button"
+                name="selected_award"
+                value="6MOY"
+            >
+                6MOY
+            </button>
+            <button
+                class="award-option"
+                type="button"
+                name="selected_award"
+                value="MIP"
+            >
+                MIP
+            </button>
+        </div>
     </div>
-    <div class="players-list">
-        {% if awards %}
-            <h3>Players who won {{ awards.all.first.name }}</h3>
-            <ul>
-                {% for award in awards %}
-                    <li>{{award.year}} {{award.players.all.first}}</li>
-                {% endfor %}
-            </ul>
-    {% endif %}
-</div>  
-    {% if user.is_staff %}
-        <a id="add_award" href="{% url 'add_award' %}" class="hover-underline-animation"> add award</a>
-    {% endif %}
+    <div class="players-list-cont">
+        <div class="players-list"></div>
+        <div class="pin-cont">
+            <img src="../../static/images/safetypin.png" alt="" />
+        </div>
+    </div>
+    {% if user.is_staff %} {% endif %}
 </div>
+
+<script>
+    const btns = document.querySelectorAll("button");
+    const playersList = document.querySelector(".players-list");
+    playersList.textContent = "choose an award...";
+    let data;
+
+    fetch("{% url 'get_awards' %}")
+        .then((response) => {
+            return response.json();
+        })
+        .then((dt) => {
+            data = dt;
+            console.log(dt);
+            [...btns].forEach((element) => {
+                element.addEventListener("click", displayAwards);
+            });
+        });
+
+    function displayAwards() {
+        playersList.innerHTML = "";
+        const awardName = this.value;
+        console.log(typeof data.awards);
+        let empty = true;
+        for (award of data.awards) {
+            if (award.name === awardName) {
+                empty = false;
+                const li = document.createElement("li");
+                li.textContent = `${award.year} ${award.player.name}`;
+                playersList.appendChild(li);
+            }
+        }
+        if (empty) {
+            const empty_msg = document.createElement("p");
+            empty_msg.textContent = "No one has won this award yet";
+            playersList.appendChild(empty_msg);
+        }
+    }
+</script>
 {% endblock content %}
