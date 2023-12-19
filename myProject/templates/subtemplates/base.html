@@ -35,8 +35,7 @@
             body,
             .content {
                 min-height: 100%;
-            }
-            body {
+                position: relative;
                 min-height: 100vh;
             }
             body {
@@ -44,9 +43,8 @@
                 background-size: cover;
                 background-repeat: no-repeat;
             }
-            main {
-                display: grid;
-                grid-template-columns: max-content 1fr;
+            main > aside + script + * {
+                margin-inline: auto;
             }
         </style>
         <div class="content">

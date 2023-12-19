@@ -1,18 +1,21 @@
 nav {
-    font-family: 'Times New Roman', Times, serif;
+    font-family: "Special Elite", Times, serif;
     color: white;
     font-size: 1.25rem;
     display: flex;
+    align-items: flex-end;
     justify-content: flex-end;
     gap: 2rem;
     padding-block: 1rem;
     padding-left: 3rem;
     padding-right: 4rem;
 }
-.greeting {
-    margin-right: auto;
+.greeting__name {
+    margin-left: 5px;
+    color: gold;
 }
 .auth-options {
     display: flex;
+    align-items: center;
     gap: 2rem;
 }

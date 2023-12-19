@@ -1,7 +1,9 @@
 <nav>
     <div class="greeting">
         {% if user.is_authenticated %}
-        <span >Hello, {{ request.user }}</span>
+        <span
+            >Hello, <span class="greeting__name">{{ request.user }}</span></span
+        >
         {% endif %}
     </div>
 
@@ -15,7 +17,7 @@
             </a>
         </span>
         {% else %}
-        
+
         <span class="register">
             <a href="{% url 'register' %}">
                 <button class="my-button" type="button">

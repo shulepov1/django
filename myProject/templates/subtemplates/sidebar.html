@@ -1,16 +1,38 @@
 <aside>
-        <ul>
-            <li>
-                <a class="aside-link" href="{% url 'home' %}">go home</a>
-            </li>
-            <li>
-                <a class="aside-link" href="{% url 'players' %}"> players </a>
-            </li>
-            <li>
-                <a class="aside-link" href="{% url 'games' %}"> games </a>
-            </li>
-            <li>
-                <a class="aside-link" href="{% url 'awards' %}"> awards </a>
-            </li>
-        </ul>
+    <img
+        class="hamburger"
+        src="../../static/images/icons/hamburger.png"
+        alt=""
+        width="40"
+        height="40"
+    />
+    <ul class="aside-list">
+        <li>
+            <a class="aside-link" href="{% url 'home' %}">go home</a>
+        </li>
+        <li>
+            <a class="aside-link" href="{% url 'players' %}"> players </a>
+        </li>
+        <li>
+            <a class="aside-link" href="{% url 'games' %}"> games </a>
+        </li>
+        <li>
+            <a class="aside-link" href="{% url 'awards' %}"> awards </a>
+        </li>
+    </ul>
 </aside>
+
+<script>
+    let listOpened = false;
+    const btn = document.querySelector("img.hamburger");
+    const list = document.querySelector("ul.aside-list");
+    btn.addEventListener("click", function () {
+        if (!listOpened) {
+            list.style.transform = "translate(0%)";
+            listOpened = true;
+        } else {
+            list.style.transform = "translate(-100%)";
+            listOpened = false;
+        }
+    });
+</script>

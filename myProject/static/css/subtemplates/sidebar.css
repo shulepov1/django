@@ -1,16 +1,41 @@
 aside {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 200px;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+
+    height: 100%;
 }
-aside > ul  {
-    font-family: 'Times New Roman', Times, serif;
+
+aside > ul {
+    background-color: #121212;
+    border-right: 1px solid rgba(147, 144, 145, 0.524);
+
+    width: 100%;
+    height: max(100vh, 100%);
+    color: white;
+
+    font-family: "Times New Roman", Times, serif;
     list-style-type: none;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     padding: min(32px, 3vw);
+    padding-top: 5rem;
+    margin: 0;
+
+    transform: translate(-100%);
+    transition: all 0.15s ease-in;
 }
 aside > ul :first-child {
     margin-bottom: 1rem;
+}
+.aside-list > li {
+    text-align: center;
 }
 .aside-link {
     padding: 5px;
@@ -20,5 +45,16 @@ aside > ul :first-child {
 .aside-link:hover {
     color: white;
     outline: 1px solid yellow;
-    background: black;
+    background: rgba(95, 21, 223, 0.335);
+}
+
+img.hamburger {
+    position: absolute;
+    padding: 5px;
+    cursor: pointer;
+    opacity: 1 !important;
+    z-index: 2;
+    align-self: flex-start;
+    top: 5px;
+    left: 5px;
 }
