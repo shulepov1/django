@@ -9,6 +9,9 @@
     font-family: "handwriting";
     font-size: clamp(1rem, 4vw, 2.5rem);
 }
+.awards-container > div {
+    width: 100%;
+}
 .awards-list {
     display: flex;
     flex-direction: column;
@@ -53,6 +56,7 @@ button.award-option {
 }
 
 #add_award {
+    text-align: center;
     display: block;
     margin-bottom: 1rem;
 

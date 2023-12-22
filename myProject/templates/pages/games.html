@@ -1,19 +1,12 @@
-{% extends 'subtemplates/base.html' %} 
-
-{% block head %}
+{% extends 'subtemplates/base.html' %} {% block head %}
 <title>Games</title>
-{% load crispy_forms_tags %} 
-{% load static %} 
-{% load user_tags %}
+{% load crispy_forms_tags %} {% load static %} {% load user_tags %}
 <link rel="stylesheet" href="{% static 'css/pages/games.css' %}" />
-{% endblock head %} 
-
-{% block content %}
+{% endblock head %} {% block content %}
 <div class="games-container">
     <div class="games">
         <h3 class="title">choose teams...</h3>
         <form class="form-teams" method="get">
-            {% csrf_token %}
             {{ filter.form.as_p }}
             <button class="btn-reset my-button mybtn-small" type="button">
                 <span class="my-button-inside dark-red">reset</span>
@@ -46,7 +39,11 @@
                 {% if user.is_staff %}
                 <form action="{% url 'game_delete' game.id %}" method="post">
                     {% csrf_token %}
-                    <button class="btn-reset my-button mybtn-small delete-game" type="submit" value="X">
+                    <button
+                        class="btn-reset my-button mybtn-small delete-game"
+                        type="submit"
+                        value="X"
+                    >
                         <span class="my-button-inside dark-red">x</span>
                     </button>
                 </form>

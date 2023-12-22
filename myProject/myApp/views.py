@@ -12,6 +12,7 @@ def is_player(user):
     return user.groups.filter(name__in=['admin','player']).exists()
 
 def homePage(request):
+    # ? - random order
     notes = Note.objects.order_by('?')[:10]
     context = {'is_homepage': True, 'notes': notes}
     return render(request, 'pages/homepage.html', context)

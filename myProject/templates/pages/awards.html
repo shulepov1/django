@@ -5,8 +5,9 @@
 {% endblock head %} {% block content %}
 <div class="awards-container">
     <div>
+        {% if user.is_staff %}
         <a id="add_award" href="{% url 'add_award' %}"> add award</a>
-
+        {% endif %}
         <div class="awards-list">
             <button
                 class="award-option"
